@@ -18,6 +18,8 @@ int normalise(const char *inPut, const char *outPut){
 
 	RootSeq myRootSeq(readingChain, normalizedData);
 
+    const unsigned  RootSeq::ringsDist[] = {8, 64, 8, 8, 4, 4, 4};
+
     myRootSeq.normalise();
 
     normalizedData->Write();
