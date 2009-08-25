@@ -1,44 +1,56 @@
+#ifndef ROOTSEQ
+
 #include<TChain.h>
+#include<vector>
 #include<cmath>
 
-#ifndef ROOTSEQ
+
 #define ROOTSEQ
 
 class RootSeq {
 
 	enum CODE {ERROR=0, OK};
 
-    const unsigned  ringsDist[];
-    const float     stopEnergy;
-    const float     energyThreshold;
+    static const unsigned  ringsDist[];
+    static const float     stopEnergy = 100.;
+    static const float     energyThreshold = 0.001;
 
-	vector<float>	*ringer_rings;
-	vector<float>	*ringer_lvl2_eta;
-	vector<float>	*ringer_lvl2_phi;
-	vector<float>	*ringer_lvl2_et;
+	std::vector<float>	*ringer_rings;
+	std::vector<float>	*ringer_lvl2_eta;
+	std::vector<float>	*ringer_lvl2_phi;
+	std::vector<float>	*ringer_lvl2_et;
 
-	vector<float>	*t2ca_lvl2_eta;
-	vector<float>	*t2ca_lvl2_phi;
-	vector<float>	*t2ca_rcore;
-	vector<float>	*t2ca_eratio;
-	vector<float>	*t2ca_emes1;
-	vector<float>	*t2ca_eme;
-    vector<float>   *t2ca_ehades0;
+	std::vector<float>	*t2ca_lvl2_eta;
+	std::vector<float>	*t2ca_lvl2_phi;
+	std::vector<float>	*t2ca_rcore;
+	std::vector<float>	*t2ca_eratio;
+	std::vector<float>	*t2ca_emes1;
+	std::vector<float>	*t2ca_eme;
+    std::vector<float>  *t2ca_ehades0;
 
 
     TChain  *fillingChain;
     TChain  *readingChain;
 
-    unsigned    getLayerInit(unsigned numEvent, unsigned layerNumber);
-    float       max_abs(unsigned layerInit);
-    float       calcNorm0(unsigned layerInit);
-    void        fillNormValues(float norm[], layerInit);
-    void        applySequentialNorm(float norm[], layerInit);
+    unsigned    getLayerInit(unsigned numEvent, unsigned curLayer);
+    float       max_abs(unsigned layerInit, unsigned curLayer);
+    float       calcNorm0(unsigned layerInit, unsigned curLayer);
+    void        fillNormValues(float norm[], unsigned layerInit, unsigned curLayer);
+    void        applySequentialNorm(float norm[], unsigned layerInit, unsigned curLayer);
+
+
 
     public:
 
-    RootSeq(TChain *outsideChain, TChain *outsideFillingChain, unsigned usrRingsDist[], float usrStopEnergy, float usrEnergyThreshold);
+    RootSeq(TChain *outsideChain, TChain *outsideFillingChain);
+    ~RootSeq();
 
     CODE normalise();
 
 };
+
+
+const unsigned  RootSeq::ringsDist[] = {8, 64, 8, 8, 4, 4, 4};
+
+
+#endif
