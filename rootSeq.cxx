@@ -1,9 +1,6 @@
 #include"rootSeq.h"
 
-RootSeq::RootSeq(TChain *outsideChain, TChain *outsideFillingChain, unsigned usrRingsDist[] = {8, 64, 8, 8, 4, 4, 4}, float usrStopEnergy = 100, float usrEnergyThreshold = .001):
-ringsDist(usrRingsDist):
-stopEnergy(usrStopEnergy):
-energyThreshold(usrEnergyThreshold){
+RootSeq::RootSeq(TChain *outsideChain, TChain *outsideFillingChain){
 
     readingChain = outsideChain;
     fillingChain = outsideFillingChain;
@@ -52,42 +49,42 @@ energyThreshold(usrEnergyThreshold){
 	fillingChain->SetBranchAddress("T2CaHadES0", 	&t2ca_ehades0);
 }
 
-inline unsigned RootSeq::getLayerInit(unsigned numEvent, unsigned layerNumber){
+inline unsigned RootSeq::getLayerInit(unsigned numEvent, unsigned curLayer){
     unsigned layerInitialRing=0;
 
-    for(unsigned i = 0; i < layerNumber; ++i) layerInitialRing += ringsDist[i];
+    for(unsigned i = 0; i < curLayer; ++i) layerInitialRing += ringsDist[i];
     return numEvent*100+layerInitialRing;
 
 }
 
-inline float RootSeq::calcNorm0(unsigned layerInit){
+inline float RootSeq::calcNorm0(unsigned layerInit, unsigned curLayer){
 
     float vNorm = 0.;
 
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing)
-        vNorm+=fabs(ringer_rings[layerInit+curLyrRing]);
+        vNorm+=fabs(ringer_rings->at(layerInit+curLyrRing));
     return vNorm;
 
 }
 
 
-inline float RootSeq::max_abs(unsigned layerInit){
+inline float RootSeq::max_abs(unsigned layerInit, unsigned curLayer){
 
     float maxValue = 0.;
-    for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing)
-        float curRingAbs = fabs(ringer_rings[layerInit+curLyrRing])
+    for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
+        float curRingAbs = fabs(ringer_rings->at(layerInit+curLyrRing));
         if (maxValue<curRingAbs) 
             maxValue=curRingAbs;
-
+    }
     return maxValue;
 
 }
 
-inline void RootSeq::fillNormValues(float norm[], layerInit){
+inline void RootSeq::fillNormValues(float norm[], unsigned layerInit, unsigned curLayer){
 
     if (norm[0]<stopEnergy){
 
-        float layerMax = max_abs(layerInitialRing);
+        float layerMax = max_abs(layerInit, curLayer);
         if (norm[0]<layerMax) norm[0]=layerMax;
         
         if (norm[0]<energyThreshold) norm[0]=energyThreshold;
@@ -99,9 +96,9 @@ inline void RootSeq::fillNormValues(float norm[], layerInit){
         bool fixed = false;
         for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
             if (!(norm[curLyrRing-1]<stopEnergy) || !fixed)
-                norm[curLyrRing] = norm[layerInitialRing + curLyrRing - 1] - fabs(ringer_rings[layerInitialRing + curLyrRing-1]);
+                norm[curLyrRing] = norm[layerInit + curLyrRing - 1] - fabs(ringer_rings->at(layerInit + curLyrRing-1));
             else {
-                norm[curLyrRing] = norm[layerInitialRing + curLyrRing - 1];
+                norm[curLyrRing] = norm[layerInit + curLyrRing - 1];
                 fixed = true;
             }
         }
@@ -110,10 +107,10 @@ inline void RootSeq::fillNormValues(float norm[], layerInit){
 
 }
 
-inline void RootSeq::applySequentialNorm(float norm[], layerInit){
+inline void RootSeq::applySequentialNorm(float norm[], unsigned layerInit, unsigned curLayer){
 
     for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing) 
-        ringer_rings[layerInitialRing + curLyrRing]/=norm[curLyrRing];
+        ringer_rings->at(layerInit + curLyrRing)/=norm[curLyrRing];
 
 }
 
@@ -122,9 +119,9 @@ RootSeq::CODE RootSeq::normalise(){
 
     //Total rings size
     unsigned totalRings = 0;
-    for(int i =0; i<sizeof(ringsDist)/sizeof unsigned; ++i) totalRings+=ringsDist[i];
+    for(unsigned i =0; i<sizeof(ringsDist)/sizeof(unsigned); ++i) totalRings+=ringsDist[i];
     
-	unsigned entries	= static_cast<unsigned>(chainAnalysis->GetEntries());
+	unsigned entries	= static_cast<unsigned>(readingChain->GetEntries());
 
     //Loop over all entries
     for(unsigned entry = 0; entry < entries; ++entry){
@@ -132,23 +129,23 @@ RootSeq::CODE RootSeq::normalise(){
         readingChain->GetEntry(entry);
 
         //Case ringerRings have multiple ROIs will loop on this for:
-        for(numEvent=0; numEvent < (ringer_rings->size()/totalRings); ++numEvent){
+        for(unsigned numEvent=0; numEvent < (ringer_rings->size()/totalRings); ++numEvent){
 
             //Looping over all Layers
-            for(unsigned curLayer=0;  curLayer<sizeof(ringsDist)/sizeof unsigned; ++curLayer){
+            for(unsigned curLayer=0;  curLayer<sizeof(ringsDist)/sizeof(unsigned); ++curLayer){
 
                 float norm[ringsDist[curLayer]];//norm have the same size of its layer
 
                 unsigned layerInitialRing = getLayerInit(numEvent, curLayer);
 
                 // Calculate initial norm value
-                norm[0] = calcNorm0(layerInitialRing);
+                norm[0] = calcNorm0(layerInitialRing, curLayer);
 
                 //fillingNormValues
-                fillNormValues(norm, layerInitialRing);
+                fillNormValues(norm, layerInitialRing, curLayer);
 
                 //ApplySequential Norm
-                applySequenatialNorm(norm, layerInitialRing);
+                applySequentialNorm(norm, layerInitialRing, curLayer);
 
             }//Close Layer loop
 
@@ -159,4 +156,20 @@ RootSeq::CODE RootSeq::normalise(){
     return RootSeq::OK;
 
 }
+
+RootSeq::~RootSeq(){
+
+	delete	ringer_rings;
+	delete	ringer_lvl2_eta;
+	delete	ringer_lvl2_phi;
+	delete	ringer_lvl2_et;
+
+	delete	t2ca_lvl2_eta;
+	delete	t2ca_lvl2_phi;
+	delete	t2ca_rcore;
+	delete	t2ca_eratio;
+	delete	t2ca_emes1;
+	delete	t2ca_eme;
+    delete  t2ca_ehades0;
             
+}
