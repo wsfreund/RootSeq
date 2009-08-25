@@ -99,7 +99,7 @@ inline void RootSeq::fillNormValues(float norm[], layerInit){
         bool fixed = false;
         for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
             if (!(norm[curLyrRing-1]<stopEnergy) || !fixed)
-                norm[curLyrRing]=norm[layerInitialRing + curLyrRing - 1] - ringer_rings[layerInitialRing + curLyrRing-1];
+                norm[curLyrRing] = norm[layerInitialRing + curLyrRing - 1] - fabs(ringer_rings[layerInitialRing + curLyrRing-1]);
             else {
                 norm[curLyrRing] = norm[layerInitialRing + curLyrRing - 1];
                 fixed = true;
