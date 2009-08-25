@@ -8,6 +8,10 @@ int normalise(const char *inPut, const char *outPut){
 	TChain		*readingChain;
 	TChain		*normalizedData;
 
+	file		= new TFile(outPut,"recreate");
+
+	normalizedData = new TChain("CollectionTree", "Tree with sequential normalized rings and T2CaloData for HypoCompTool");
+
 	readingChain = new TChain("CollectionTree");
 	readingChain->Add(inPut);
 	readingChain->SetBranchStatus("*",	false);
@@ -20,76 +24,10 @@ int normalise(const char *inPut, const char *outPut){
     file->Close();
 
     delete file;
-    delete redingChain;
+    delete readingChain;
     delete normalizedData;
+
+    return 0;
 
 }
 
-int normalise(const char *inPut, const char *outPut, unsigned usrRingsDist[]){
-
-	TFile 		*file;
-	TChain		*readingChain;
-	TChain		*normalizedData;
-
-	readingChain = new TChain("CollectionTree");
-	readingChain->Add(inPut);
-	readingChain->SetBranchStatus("*",	false);
-
-	RootSeq myRootSeq(readingChain, normalizedData, usrRingsDist);
-
-    myRootSeq.normalise();
-
-    normalizedData->Write();
-    file->Close();
-
-    delete file;
-    delete redingChain;
-    delete normalizedData;
-
-}
-
-int normalise(const char *inPut, const char *outPut, unsigned usrRingsDist[], float usrStopEnergy){
-
-	TFile 		*file;
-	TChain		*readingChain;
-	TChain		*normalizedData;
-
-	readingChain = new TChain("CollectionTree");
-	readingChain->Add(inPut);
-	readingChain->SetBranchStatus("*",	false);
-
-	RootSeq myRootSeq(readingChain, normalizedData, usrRingsDist, usrStopEnergy);
-
-    myRootSeq.normalise();
-
-    normalizedData->Write();
-    file->Close();
-
-    delete file;
-    delete redingChain;
-    delete normalizedData;
-
-}
-
-int normalise(const char *inPut, const char *outPut, unsigned usrRingsDist[], float usrStopEnergy, float usrEnergyThreshold){
-
-	TFile 		*file;
-	TChain		*readingChain;
-	TChain		*normalizedData;
-
-	readingChain = new TChain("CollectionTree");
-	readingChain->Add(inPut);
-	readingChain->SetBranchStatus("*",	false);
-
-	RootSeq myRootSeq(readingChain, normalizedData, usrRingsDist, usrStopEnergy, usrEnergyThreshold);
-
-    myRootSeq.normalise();
-
-    normalizedData->Write();
-    file->Close();
-
-    delete file;
-    delete redingChain;
-    delete normalizedData;
-
-}
