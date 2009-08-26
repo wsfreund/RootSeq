@@ -52,6 +52,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
 
 }
 
+/*
 void RootSeq::copyVectors(){
 
     ringer_rings2->insert(ringer_rings2->begin(), ringer_rings->begin(), ringer_rings->end());
@@ -63,7 +64,7 @@ void RootSeq::clearVectors(){
     ringer_rings2->clear();
 
 }
-
+*/
 inline unsigned RootSeq::getLayerInit(const unsigned numEvent, const unsigned curLayer){
     unsigned layerInitialRing=0;
 
