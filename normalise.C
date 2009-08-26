@@ -6,7 +6,7 @@
 
 int normalise(const char *inPut, const char *outPut){
 
-	TFile 		*file;
+
 	TChain		*readingChain;
 	TTree		*normalizedData;
 
@@ -24,6 +24,7 @@ int normalise(const char *inPut, const char *outPut){
 
     std::cout<<"Passou normalise()\n";
 
+	TFile 		*file;
     normalizedData->Write();
 //    file->Close();
 
