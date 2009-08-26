@@ -7,24 +7,24 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TChain *outsideFillingChain){
 
 //NeuralRinger Variables
     readingChain->SetBranchStatus("Ringer_Rings", 		true);
-	readingChain->SetBranchStatus("Ringer_LVL2_Eta", 	true);
+/*	readingChain->SetBranchStatus("Ringer_LVL2_Eta", 	true);
 	readingChain->SetBranchStatus("Ringer_LVL2_Phi",    true);
 	readingChain->SetBranchStatus("Ringer_LVL2_Et",		true);
-
+*/
 //T2Calo Variables
-	readingChain->SetBranchStatus("T2CaEta", 		true);
+/*	readingChain->SetBranchStatus("T2CaEta", 		true);
 	readingChain->SetBranchStatus("T2CaPhi",		true);
 	readingChain->SetBranchStatus("T2CaRcore", 	    true);
 	readingChain->SetBranchStatus("T2CaEratio",	    true);
 	readingChain->SetBranchStatus("T2CaEmES1", 	    true);
 	readingChain->SetBranchStatus("T2CaEmE", 		true);
 	readingChain->SetBranchStatus("T2CaHadES0", 	true);
-
+*/
 //NeuralRinger Variables
     readingChain->SetBranchAddress("Ringer_Rings",      &ringer_rings);
-    readingChain->SetBranchAddress("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
+/*  readingChain->SetBranchAddress("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
     readingChain->SetBranchAddress("Ringer_LVL2_Phi",   &ringer_lvl2_phi);       
-	readingChain->SetBranchAddress("Ringer_LVL2_Et",	&ringer_lvl2_et);
+    readingChain->SetBranchAddress("Ringer_LVL2_Et",	&ringer_lvl2_et);
 
 //T2Calo Variables
 	readingChain->SetBranchAddress("T2CaEta", 		&t2ca_lvl2_eta);
@@ -34,10 +34,10 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TChain *outsideFillingChain){
 	readingChain->SetBranchAddress("T2CaEmES1", 	&t2ca_emes1);
 	readingChain->SetBranchAddress("T2CaEmE", 		&t2ca_eme);
 	readingChain->SetBranchAddress("T2CaHadES0", 	&t2ca_ehades0);
-
+*/
 //NeuralRinger
     fillingChain->SetBranchAddress("Ringer_Rings",      &ringer_rings);
-    fillingChain->SetBranchAddress("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
+/*  fillingChain->SetBranchAddress("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
     fillingChain->SetBranchAddress("Ringer_LVL2_Phi",   &ringer_lvl2_phi);       
 	fillingChain->SetBranchAddress("Ringer_LVL2_Et",	&ringer_lvl2_et);
 
@@ -49,6 +49,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TChain *outsideFillingChain){
 	fillingChain->SetBranchAddress("T2CaEmES1", 	&t2ca_emes1);
 	fillingChain->SetBranchAddress("T2CaEmE", 		&t2ca_eme);
 	fillingChain->SetBranchAddress("T2CaHadES0", 	&t2ca_ehades0);
+*/
 }
 
 inline unsigned RootSeq::getLayerInit(const unsigned numEvent, const unsigned curLayer){
