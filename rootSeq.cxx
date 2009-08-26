@@ -123,7 +123,7 @@ RootSeq::CODE RootSeq::normalise(){
     unsigned totalRings = 0;
     for(unsigned i =0; i<sizeof(ringsDist)/sizeof(unsigned); ++i) totalRings+=ringsDist[i];
     std::cout<<"Debug1\n";
-	int entries	= static_cast<int>(readingChain->GetEntries());
+
 
 
         //Case ringerRings have multiple ROIs will loop on this for:
