@@ -5,18 +5,18 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
     readingChain = outsideReadingChain;
     fillingTree = outsidefillingTree;
 
-	ringer_rings	=	new vector<float>;
-	ringer_lvl2_eta	=	new vector<float>;
-	ringer_lvl2_phi	=	new vector<float>;
-	ringer_lvl2_et  =	new vector<float>;
+	ringer_rings	=	new std::vector<float>;
+	ringer_lvl2_eta	=	new std::vector<float>;
+	ringer_lvl2_phi	=	new std::vector<float>;
+	ringer_lvl2_et  =	new std::vector<float>;
 
-	t2ca_lvl2_eta	=	new vector<float>;
-	t2ca_lvl2_phi   =	new vector<float>;
-	t2ca_rcore		=	new vector<float>;
-    t2ca_eratio		=	new vector<float>;
-    t2ca_emes1		=	new vector<float>;
-    t2ca_eme		=	new vector<float>;
-    t2ca_ehades0	=	new vector<float>;
+	t2ca_lvl2_eta	=	new std::vector<float>;
+	t2ca_lvl2_phi   =	new std::vector<float>;
+	t2ca_rcore		=	new std::vector<float>;
+    t2ca_eratio		=	new std::vector<float>;
+    t2ca_emes1		=	new std::vector<float>;
+    t2ca_eme		=	new std::vector<float>;
+    t2ca_ehades0	=	new std::vector<float>;
 
 
 //NeuralRinger Variables
