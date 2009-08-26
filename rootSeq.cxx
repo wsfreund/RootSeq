@@ -36,7 +36,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
 //	readingChain->SetBranchAddress("T2CaHadES0", 	&t2ca_ehades0);
 
 //NeuralRinger
-    fillingTree->Branch("Ringer_Rings",      &ringer_rings2);
+    fillingTree->Branch("Ringer_Rings",      &ringer_rings);
 //    fillingTree->Branch("Ringer_LVL2_Eta",   &ringer_lvl2_eta2);       
 //    fillingTree->Branch("Ringer_LVL2_Phi",   &ringer_lvl2_phi2);       
 //   fillingTree->Branch("Ringer_LVL2_Et",	 &ringer_lvl2_et2);
@@ -53,8 +53,6 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
 }
 
 void RootSeq::copyVectors(){
-
-    register unsigned i;
 
     ringer_rings2->insert(ringer_rings2->begin(), ringer_rings->begin(), ringer_rings->end());
 
@@ -148,8 +146,6 @@ RootSeq::CODE RootSeq::normalise(){
         readingChain->GetEntry(entry);
         std::cout<<"Debug3\n";
 
-        copyVectors();
-
         //Case ringerRings have multiple ROIs will loop on this for:
         for(unsigned numEvent=0; numEvent < (ringer_rings->size()/totalRings); ++numEvent){
             std::cout<<"Debug4\n";
@@ -172,8 +168,7 @@ RootSeq::CODE RootSeq::normalise(){
             }//Close Layer loop
 
         }//Close Events Loop
-        fillingTree->Write();
-        clearVectors();
+
     }//Close Entry Loop
 
     return RootSeq::OK;

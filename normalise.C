@@ -23,6 +23,8 @@ int normalise(const char *inPut, const char *outPut){
 
     std::cout<<"Passou normalise()\n";
 
+
+    normalizedData->Write();
 //    file->Close();
 
 //    delete file;
