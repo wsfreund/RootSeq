@@ -57,22 +57,6 @@ void RootSeq::copyVectors(){
     register unsigned i;
 
     ringer_rings2->insert(ringer_rings2->begin(), ringer_rings->begin(), ringer_rings->end());
-    for(i=0; i<ringer_rings->size(); ++i) {
-        std::cout<<ringer_rings->at(i)<<std::endl;
-        //ringer_rings2->push_back(ringer_rings->at(i));
-        std::cout<<ringer_rings2->at(i)<<std::endl;
-    }
-//   for(i=0; i<ringer_lvl2_eta->size(); ++i) ringer_lvl2_eta2->push_back(ringer_lvl2_eta->at(i));
-//    for(i=0; i<ringer_lvl2_phi->size(); ++i) ringer_lvl2_phi2->push_back(ringer_lvl2_phi->at(i));
-//    for(i=0; i<ringer_lvl2_et->size(); ++i) ringer_lvl2_et2->push_back(ringer_lvl2_et->at(i));
-
-//    for(i=0; i<t2ca_lvl2_eta->size(); ++i) t2ca_lvl2_eta2->push_back(t2ca_lvl2_eta->at(i));
-//    for(i=0; i<t2ca_lvl2_phi->size(); ++i) t2ca_lvl2_phi2->push_back(t2ca_lvl2_phi->at(i));
-//    for(i=0; i<t2ca_rcore->size(); ++i) t2ca_rcore2->push_back(t2ca_rcore->at(i));
-//    for(i=0; i<t2ca_eratio->size(); ++i) t2ca_eratio->push_back(t2ca_eratio->at(i));
-//   for(i=0; i<t2ca_emes1->size(); ++i) t2ca_emes12->push_back(t2ca_emes1->at(i));
-//    for(i=0; i<t2ca_eme->size(); ++i) t2ca_eme2->push_back(t2ca_eme->at(i));
-//    for(i=0; i<t2ca_ehades0->size(); ++i) t2ca_ehades0->push_back(t2ca_ehades0->at(i));
 
 }
 
@@ -188,6 +172,7 @@ RootSeq::CODE RootSeq::normalise(){
             }//Close Layer loop
 
         }//Close Events Loop
+        fillingTree->Write();
         clearVectors();
     }//Close Entry Loop
 
