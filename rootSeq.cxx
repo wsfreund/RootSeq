@@ -36,7 +36,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
 //	readingChain->SetBranchAddress("T2CaHadES0", 	&t2ca_ehades0);
 
 //NeuralRinger
-    fillingTree->Branch("Ringer_Rings",      &ringer_rings);
+//    fillingTree->Branch("Ringer_Rings",      &ringer_rings);
 //    fillingTree->Branch("Ringer_LVL2_Eta",   &ringer_lvl2_eta2);       
 //    fillingTree->Branch("Ringer_LVL2_Phi",   &ringer_lvl2_phi2);       
 //   fillingTree->Branch("Ringer_LVL2_Et",	 &ringer_lvl2_et2);
