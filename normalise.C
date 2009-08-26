@@ -7,9 +7,9 @@
 int normalise(const char *inPut, const char *outPut){
 
 	TFile 		*file;
-	file		= new TFile(outPut,"recreate");
 	TChain		*readingChain;
 	TTree		*normalizedData;
+    RootSeq     *myRootSeq;
 
 	normalizedData = new TTree("CollectionTree", "Tree with sequential normalized rings and T2CaloData for HypoCompTool");
 
@@ -17,9 +17,11 @@ int normalise(const char *inPut, const char *outPut){
 	readingChain->Add(inPut);
 	readingChain->SetBranchStatus("*",	false);
 
-	RootSeq myRootSeq(readingChain, normalizedData);
+	file        = new TFile(outPut,"recreate");
 
-    myRootSeq.normalise();
+	myRootSeq   = new RootSeq(readingChain, normalizedData);
+
+    myRootSeq->normalise();
 
     std::cout<<"Passou normalise()\n";
 
@@ -28,6 +30,7 @@ int normalise(const char *inPut, const char *outPut){
 //    file->Close();
 
 //    delete file;
+    delete myRootSeq;
     delete readingChain;
     delete normalizedData;
 
