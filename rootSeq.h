@@ -5,9 +5,11 @@
 #include<vector>
 #include<cmath>
 #include<iostream>
+#include<fstream>
 
 
 #define ROOTSEQ
+
 
 class RootSeq {
 
@@ -16,6 +18,7 @@ class RootSeq {
     static const unsigned  ringsDist[];
     static const float     stopEnergy = 100.;
     static const float     energyThreshold = 0.001;
+    static const int       DEBUG = 1;
 
 	std::vector<float>	*ringer_rings;
 	std::vector<float>	*ringer_lvl2_eta;
@@ -34,13 +37,13 @@ class RootSeq {
     TTree   *fillingTree;
     TChain  *readingChain;
 
+    ofstream *debugFile;
+
     unsigned    getLayerInit(const unsigned numEvent, const unsigned curLayer);
     float       max_abs(const unsigned layerInit, const unsigned curLayer);
     float       calcNorm0(const unsigned layerInit, const unsigned curLayer);
     void        fillNormValues(float norm[], const unsigned layerInit, const unsigned curLayer);
     void        applySequentialNorm(const float norm[], const unsigned layerInit, const unsigned curLayer);
-
-
 
     public:
 

@@ -18,7 +18,8 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
     t2ca_eme		=	new std::vector<float>;
     t2ca_ehades0	=	new std::vector<float>;
 
-
+    if (DEBUG)  debugFile = new ofstream("debug.txt", ios::out | ios::trunc);
+    else debugFile = NULL;
 //NeuralRinger Variables
     readingChain->SetBranchStatus("Ringer_Rings", 		true);
 	readingChain->SetBranchStatus("Ringer_LVL2_Eta", 	true);
@@ -77,9 +78,12 @@ inline unsigned RootSeq::getLayerInit(const unsigned numEvent, const unsigned cu
 inline float RootSeq::calcNorm0(const unsigned layerInit, const unsigned curLayer){
 
     float vNorm = 0.;
-
-    for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing)
-        vNorm+=std::fabs(ringer_rings->at(layerInit+curLyrRing));
+    if (DEBUG) *debugFile<<"Calculating Norm0, Current Energy rings for this Layer:\n";
+    for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
+        if (DEBUG) *debugFile<<ringer_rings->at(layerInit+curLyrRing)<<"    ";
+        vNorm+=fabs(ringer_rings->at(layerInit+curLyrRing));
+    }
+    if (DEBUG) *debugFile<<"\n Its mean is : "<<vNorm<<std::endl;
     return vNorm;
 
 }
@@ -89,7 +93,7 @@ inline float RootSeq::max_abs(const unsigned layerInit, const unsigned curLayer)
 
     float maxValue = 0.;
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
-        float curRingAbs = std::fabs(ringer_rings->at(layerInit+curLyrRing));
+        float curRingAbs = fabs(ringer_rings->at(layerInit+curLyrRing));
         if (maxValue<curRingAbs) 
             maxValue=curRingAbs;
     }
@@ -99,78 +103,103 @@ inline float RootSeq::max_abs(const unsigned layerInit, const unsigned curLayer)
 
 inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, const unsigned curLayer){
 
+    if (DEBUG) *debugFile<<"Inside FillNormValues.";
     if (norm[0]<stopEnergy){
 
         float layerMax = max_abs(layerInit, curLayer);
-        if (norm[0]<layerMax) norm[0]=layerMax;
+
+        if (norm[0]<layerMax){
+            if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<" MaxValue for this Layer"<<layerMax<<" and now will be the norm[0]value"<<std::endl;
+            norm[0]=layerMax;
+        }
+        else 
+            if (DEBUG) *debugFile<<"Norm[0] = "<< norm[0] << " < " <<" stopEnergy = "<<stopEnergy<<" MaxValue for this Layer"<<layerMax<<" that is lesser than norm[0]"<<std::endl;
         
-        if (norm[0]<energyThreshold) norm[0]=energyThreshold;
+        if (DEBUG) *debugFile<<"Applying energyThreshold test\n";
+
+        if (norm[0]<energyThreshold) {
+            if (DEBUG) *debugFile<<"norm[0] < energyThreshold("<<energyThreshold<<") and now norm[0] = energyThreshold\n";
+            norm[0]=energyThreshold;
+        }
 
         //Setting all layer rings normalized by norm0:
-        for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing) norm[curLyrRing]=norm[0];
-
+        for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
+            norm[curLyrRing]=norm[0];
+            if (DEBUG) *debugFile<<"Norm["<<curLyrRing<<"] = "<<norm[curLyrRing]<<std::endl;
+        }
     }else{
+        if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" > "<<" stopEnergy = "<<stopEnergy<<std::endl;
         bool fixed = false;
         for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
-            if (!(norm[curLyrRing-1]<stopEnergy) || !fixed)
-                norm[curLyrRing] = norm[layerInit + curLyrRing - 1] - std::fabs(ringer_rings->at(layerInit + curLyrRing-1));
+            if (!(norm[curLyrRing-1]<stopEnergy) || !fixed){
+                norm[curLyrRing] = norm[layerInit + curLyrRing - 1] - fabs(ringer_rings->at(layerInit + curLyrRing-1));
+                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<"and (norm[curLyrRing-1]<stopEnergy) = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<curLyrRing<<"] = "<<norm[layerInit + curLyrRing - 1]<<" - "<<fabs(ringer_rings->at(layerInit + curLyrRing-1))<<" = "<<norm[curLyrRing];
+            }
             else {
                 norm[curLyrRing] = norm[layerInit + curLyrRing - 1];
+                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" norm["<<curLyrRing<<"] = "<<norm[curLyrRing];
                 fixed = true;
             }
         }
 
     }
-
+    if (DEBUG) *debugFile<<"Finished fillNormValues\n";
 }
 
 inline void RootSeq::applySequentialNorm(const float norm[], const unsigned layerInit, const unsigned curLayer){
 
-    for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing) 
+    if (DEBUG) *debugFile<<"Inside Sequential Norm\n";
+    for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
+
+        if (DEBUG) *debugFile << "Ring number " <<curLyrRing+layerInit+1<< " new value = (old value)" << ringer_rings->at(layerInit + curLyrRing) << " / (norm[" << curLyrRing << "]) " <<norm[curLyrRing];
         ringer_rings->at(layerInit + curLyrRing)/=norm[curLyrRing];
+        if (DEBUG) *debugFile<<" = (new value) "<<ringer_rings->at(layerInit + curLyrRing)<<std::endl;
+
+    }
 
 }
 
 
 RootSeq::CODE RootSeq::normalise(){
 
+    if (DEBUG) *debugFile<<"||||||| Debug init |||||||\n";
     //Total rings size
-    std::cout<<"Debug\n";
     unsigned totalRings = 0;
     for(unsigned i =0; i<sizeof(ringsDist)/sizeof(unsigned); ++i) totalRings+=ringsDist[i];
-
-    std::cout<<"Debug1\n";
+    if (DEBUG) *debugFile<<"Total rings for each ROI is "<<totalRings<<std::endl;
 	int entries	= static_cast<int>(readingChain->GetEntries());
 
     //Loop over all entries
     for(int entry = 0; entry < entries; ++entry){
-        std::cout<<"Debug2\n";
         readingChain->GetEntry(entry);
-        std::cout<<"Debug3\n";
-
         //Case ringerRings have multiple ROIs will loop on this for:
         for(unsigned numEvent=0; numEvent < (ringer_rings->size()/totalRings); ++numEvent){
-            std::cout<<"Debug4\n";
             //Looping over all Layers
             for(unsigned curLayer=0;  curLayer<sizeof(ringsDist)/sizeof(unsigned); ++curLayer){
-                std::cout<<"Debug5\n";
+
+
                 float norm[ringsDist[curLayer]];//norm have the same size of its layer
 
                 unsigned layerInitialRing = getLayerInit(numEvent, curLayer);
 
+                if (DEBUG) *debugFile<<"Entry Number "<<entry+1<<" from "<<entries<<" : numEvent "<<numEvent+1<<" : from "<<(ringer_rings->size()/totalRings)<<" events : Layer number "<<curLayer+1<<" from "<<sizeof(ringsDist)/sizeof(unsigned)<<" layers : It's size is "<<ringsDist[curLayer]<<" : and it begins on Ring "<<layerInitialRing+1<<std::endl;
+
                 // Calculate initial norm value
                 norm[0] = calcNorm0(layerInitialRing, curLayer);
-                std::cout<<"Debug6\n";
                 //fillingNormValues
                 fillNormValues(norm, layerInitialRing, curLayer);
-                std::cout<<"Debug7\n";
                 //ApplySequential Norm
                 applySequentialNorm(norm, layerInitialRing, curLayer);
 
+                if (DEBUG) *debugFile<<"Ended LAYER Number "<<curLayer+1<<std::endl;
             }//Close Layer loop
-
+            if (DEBUG) *debugFile<<"Ended Event Number "<< numEvent+1<<std::endl;
         }//Close Events Loop
-        for(unsigned f=0; f<ringer_rings->size(); ++f) std::cout<<f<<" "<<ringer_rings->at(f)<<std::endl;
+
+        if (DEBUG) *debugFile<<"Ended Entry Number "<< entry+1<<std::endl;
+        if (DEBUG) *debugFile<<"Filling Tree with ringer_rings values of : "<<std::endl;
+
+        for(unsigned f=0; (DEBUG && f<ringer_rings->size() ); ++f) *debugFile<<f<<" "<<ringer_rings->at(f)<<std::endl;
         fillingTree->Fill();
     }//Close Entry Loop
 
@@ -179,6 +208,11 @@ RootSeq::CODE RootSeq::normalise(){
 }
 
 RootSeq::~RootSeq(){
+
+    if (DEBUG) {
+        debugFile->close();
+        delete debugFile;
+    }
 
 	delete ringer_rings;
 	delete ringer_lvl2_eta;	
