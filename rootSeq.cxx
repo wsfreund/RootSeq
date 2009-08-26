@@ -36,18 +36,18 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
 	readingChain->SetBranchAddress("T2CaHadES0", 	&t2ca_ehades0);
 //NeuralRinger
     fillingTree->Branch("Ringer_Rings",      &ringer_rings);
-    fillingTree->Branch("Ringer_LVL2_Eta",   &ringer_lvl2_eta2);       
-    fillingTree->Branch("Ringer_LVL2_Phi",   &ringer_lvl2_phi2);       
-    fillingTree->Branch("Ringer_LVL2_Et",	 &ringer_lvl2_et2);
+    fillingTree->Branch("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
+    fillingTree->Branch("Ringer_LVL2_Phi",   &ringer_lvl2_phi);       
+    fillingTree->Branch("Ringer_LVL2_Et",	 &ringer_lvl2_et);
 
 //T2Calo
-	fillingTree->Branch("T2CaEta", 		&t2ca_lvl2_eta2);
-	fillingTree->Branch("T2CaPhi",		&t2ca_lvl2_phi2);
-	fillingTree->Branch("T2CaRcore", 	&t2ca_rcore2);
-	fillingTree->Branch("T2CaEratio",	&t2ca_eratio2);
-	fillingTree->Branch("T2CaEmES1", 	&t2ca_emes12);
-	fillingTree->Branch("T2CaEmE", 		&t2ca_eme2);
-	fillingTree->Branch("T2CaHadES0", 	&t2ca_ehades02);
+	fillingTree->Branch("T2CaEta", 		&t2ca_lvl2_eta);
+	fillingTree->Branch("T2CaPhi",		&t2ca_lvl2_phi);
+	fillingTree->Branch("T2CaRcore", 	&t2ca_rcore);
+	fillingTree->Branch("T2CaEratio",	&t2ca_eratio);
+	fillingTree->Branch("T2CaEmES1", 	&t2ca_emes1);
+	fillingTree->Branch("T2CaEmE", 		&t2ca_eme);
+	fillingTree->Branch("T2CaHadES0", 	&t2ca_ehades0);
 
 }
 
