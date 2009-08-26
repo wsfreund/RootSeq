@@ -5,6 +5,20 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
     readingChain = outsideReadingChain;
     fillingTree = outsidefillingTree;
 
+	ringer_rings	=	new vector<float>;
+	ringer_lvl2_eta	=	new vector<float>;
+	ringer_lvl2_phi	=	new vector<float>;
+	ringer_lvl2_et  =	new vector<float>;
+
+	t2ca_lvl2_eta	=	new vector<float>;
+	t2ca_lvl2_phi   =	new vector<float>;
+	t2ca_rcore		=	new vector<float>;
+    t2ca_eratio		=	new vector<float>;
+    t2ca_emes1		=	new vector<float>;
+    t2ca_eme		=	new vector<float>;
+    t2ca_ehades0	=	new vector<float>;
+
+
 //NeuralRinger Variables
     readingChain->SetBranchStatus("Ringer_Rings", 		true);
 	readingChain->SetBranchStatus("Ringer_LVL2_Eta", 	true);
@@ -34,6 +48,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
 	readingChain->SetBranchAddress("T2CaEmES1", 	&t2ca_emes1);
 	readingChain->SetBranchAddress("T2CaEmE", 		&t2ca_eme);
 	readingChain->SetBranchAddress("T2CaHadES0", 	&t2ca_ehades0);
+
 //NeuralRinger
     fillingTree->Branch("Ringer_Rings",      &ringer_rings);
     fillingTree->Branch("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
@@ -163,3 +178,18 @@ RootSeq::CODE RootSeq::normalise(){
 
 }
 
+RootSeq::~RootSeq(){
+
+	delete ringer_rings;
+	delete ringer_lvl2_eta;	
+	delete ringer_lvl2_phi;	
+	delete ringer_lvl2_et;  
+
+	delete t2ca_lvl2_eta;	
+	delete t2ca_lvl2_phi;   
+	delete t2ca_rcore;		
+    delete t2ca_eratio;		
+    delete t2ca_emes1;		
+    delete t2ca_eme;		
+    delete t2ca_ehades0;	
+}

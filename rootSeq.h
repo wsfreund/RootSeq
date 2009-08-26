@@ -45,6 +45,7 @@ class RootSeq {
     public:
 
     RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree);
+    ~RootSeq()
 
     CODE normalise();
 
