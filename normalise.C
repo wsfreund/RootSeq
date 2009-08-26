@@ -24,7 +24,6 @@ int normalise(const char *inPut, const char *outPut){
 
     std::cout<<"Passou normalise()\n";
 
-
     normalizedData->GetCurrentFile()->Write();
     normalizedData->GetCurrentFile()->Close();
 
