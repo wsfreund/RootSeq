@@ -30,10 +30,24 @@ class RootSeq {
 	std::vector<float>	*t2ca_eme;
     std::vector<float>  *t2ca_ehades0;
 
+	std::vector<float>	*ringer_rings2;
+	std::vector<float>	*ringer_lvl2_eta2;
+	std::vector<float>	*ringer_lvl2_phi2;
+	std::vector<float>	*ringer_lvl2_et2;
+
+	std::vector<float>	*t2ca_lvl2_eta2;
+	std::vector<float>	*t2ca_lvl2_phi2;
+	std::vector<float>	*t2ca_rcore2;
+	std::vector<float>	*t2ca_eratio2;
+	std::vector<float>	*t2ca_emes12;
+	std::vector<float>	*t2ca_eme2;
+    std::vector<float>  *t2ca_ehades02;
+
 
     TTree   *fillingTree;
     TChain  *readingChain;
 
+    void        copyVectors();
     unsigned    getLayerInit(const unsigned numEvent, const unsigned curLayer);
     float       max_abs(const unsigned layerInit, const unsigned curLayer);
     float       calcNorm0(const unsigned layerInit, const unsigned curLayer);
