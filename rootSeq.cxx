@@ -1,6 +1,6 @@
 #include"rootSeq.h"
 
-RootSeq::RootSeq(TChain *&outsideReadingChain, TChain *&outsideFillingChain){
+RootSeq::RootSeq(TChain *outsideReadingChain, TChain *outsideFillingChain){
 
     readingChain = outsideReadingChain;
     fillingChain = outsideFillingChain;
@@ -11,11 +11,6 @@ RootSeq::RootSeq(TChain *&outsideReadingChain, TChain *&outsideFillingChain){
 	readingChain->SetBranchStatus("Ringer_LVL2_Phi",    true);
 	readingChain->SetBranchStatus("Ringer_LVL2_Et",		true);
 
-    readingChain->SetBranchAddress("Ringer_Rings",      &ringer_rings);
-    readingChain->SetBranchAddress("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
-    readingChain->SetBranchAddress("Ringer_LVL2_Phi",   &ringer_lvl2_phi);       
-	readingChain->SetBranchAddress("Ringer_LVL2_Et",	&ringer_lvl2_et);
-
 //T2Calo Variables
 	readingChain->SetBranchStatus("T2CaEta", 		true);
 	readingChain->SetBranchStatus("T2CaPhi",		true);
@@ -25,6 +20,13 @@ RootSeq::RootSeq(TChain *&outsideReadingChain, TChain *&outsideFillingChain){
 	readingChain->SetBranchStatus("T2CaEmE", 		true);
 	readingChain->SetBranchStatus("T2CaHadES0", 	true);
 
+//NeuralRinger Variables
+    readingChain->SetBranchAddress("Ringer_Rings",      &ringer_rings);
+    readingChain->SetBranchAddress("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
+    readingChain->SetBranchAddress("Ringer_LVL2_Phi",   &ringer_lvl2_phi);       
+	readingChain->SetBranchAddress("Ringer_LVL2_Et",	&ringer_lvl2_et);
+
+//T2Calo Variables
 	readingChain->SetBranchAddress("T2CaEta", 		&t2ca_lvl2_eta);
 	readingChain->SetBranchAddress("T2CaPhi",		&t2ca_lvl2_phi);
 	readingChain->SetBranchAddress("T2CaRcore", 	&t2ca_rcore);
@@ -49,7 +51,7 @@ RootSeq::RootSeq(TChain *&outsideReadingChain, TChain *&outsideFillingChain){
 	fillingChain->SetBranchAddress("T2CaHadES0", 	&t2ca_ehades0);
 }
 
-inline unsigned RootSeq::getLayerInit(unsigned numEvent, unsigned curLayer){
+inline unsigned RootSeq::getLayerInit(const unsigned numEvent, const unsigned curLayer){
     unsigned layerInitialRing=0;
 
     for(unsigned i = 0; i < curLayer; ++i) layerInitialRing += ringsDist[i];
@@ -57,22 +59,22 @@ inline unsigned RootSeq::getLayerInit(unsigned numEvent, unsigned curLayer){
 
 }
 
-inline float RootSeq::calcNorm0(unsigned layerInit, unsigned curLayer){
+inline float RootSeq::calcNorm0(const unsigned layerInit, const unsigned curLayer){
 
     float vNorm = 0.;
 
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing)
-        vNorm+=fabs(ringer_rings->at(layerInit+curLyrRing));
+        vNorm+=std::fabs(ringer_rings->at(layerInit+curLyrRing));
     return vNorm;
 
 }
 
 
-inline float RootSeq::max_abs(unsigned layerInit, unsigned curLayer){
+inline float RootSeq::max_abs(const unsigned layerInit, const unsigned curLayer){
 
     float maxValue = 0.;
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
-        float curRingAbs = fabs(ringer_rings->at(layerInit+curLyrRing));
+        float curRingAbs = std::fabs(ringer_rings->at(layerInit+curLyrRing));
         if (maxValue<curRingAbs) 
             maxValue=curRingAbs;
     }
@@ -80,7 +82,7 @@ inline float RootSeq::max_abs(unsigned layerInit, unsigned curLayer){
 
 }
 
-inline void RootSeq::fillNormValues(float norm[], unsigned layerInit, unsigned curLayer){
+inline void RootSeq::fillNormValues(float &norm[], const unsigned layerInit, const unsigned curLayer){
 
     if (norm[0]<stopEnergy){
 
@@ -96,7 +98,7 @@ inline void RootSeq::fillNormValues(float norm[], unsigned layerInit, unsigned c
         bool fixed = false;
         for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
             if (!(norm[curLyrRing-1]<stopEnergy) || !fixed)
-                norm[curLyrRing] = norm[layerInit + curLyrRing - 1] - fabs(ringer_rings->at(layerInit + curLyrRing-1));
+                norm[curLyrRing] = norm[layerInit + curLyrRing - 1] - std::fabs(ringer_rings->at(layerInit + curLyrRing-1));
             else {
                 norm[curLyrRing] = norm[layerInit + curLyrRing - 1];
                 fixed = true;
@@ -107,7 +109,7 @@ inline void RootSeq::fillNormValues(float norm[], unsigned layerInit, unsigned c
 
 }
 
-inline void RootSeq::applySequentialNorm(float norm[], unsigned layerInit, unsigned curLayer){
+inline void RootSeq::applySequentialNorm(const float norm[], const unsigned layerInit, const unsigned curLayer){
 
     for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing) 
         ringer_rings->at(layerInit + curLyrRing)/=norm[curLyrRing];
@@ -118,34 +120,34 @@ inline void RootSeq::applySequentialNorm(float norm[], unsigned layerInit, unsig
 RootSeq::CODE RootSeq::normalise(){
 
     //Total rings size
-    cout<<"Debug\n";
+    std::cout<<"Debug\n";
     unsigned totalRings = 0;
     for(unsigned i =0; i<sizeof(ringsDist)/sizeof(unsigned); ++i) totalRings+=ringsDist[i];
 
-    cout<<"Debug1\n";
+    std::cout<<"Debug1\n";
 	int entries	= static_cast<int>(readingChain->GetEntries());
 
     //Loop over all entries
     for(int entry = 0; entry < entries; ++entry){
-        cout<<"Debug2\n";
+        std::cout<<"Debug2\n";
         readingChain->GetEntry(entry);
-        cout<<"Debug3\n";
+        std::cout<<"Debug3\n";
         //Case ringerRings have multiple ROIs will loop on this for:
         for(unsigned numEvent=0; numEvent < (ringer_rings->size()/totalRings); ++numEvent){
-            cout<<"Debug4\n";
+            std::cout<<"Debug4\n";
             //Looping over all Layers
             for(unsigned curLayer=0;  curLayer<sizeof(ringsDist)/sizeof(unsigned); ++curLayer){
-                cout<<"Debug5\n";
+                std::cout<<"Debug5\n";
                 float norm[ringsDist[curLayer]];//norm have the same size of its layer
 
                 unsigned layerInitialRing = getLayerInit(numEvent, curLayer);
 
                 // Calculate initial norm value
                 norm[0] = calcNorm0(layerInitialRing, curLayer);
-                cout<<"Debug6\n";
+                std::cout<<"Debug6\n";
                 //fillingNormValues
                 fillNormValues(norm, layerInitialRing, curLayer);
-                cout<<"Debug7\n";
+                std::cout<<"Debug7\n";
                 //ApplySequential Norm
                 applySequentialNorm(norm, layerInitialRing, curLayer);
 
@@ -159,19 +161,3 @@ RootSeq::CODE RootSeq::normalise(){
 
 }
 
-RootSeq::~RootSeq(){
-
-	delete	ringer_rings;
-	delete	ringer_lvl2_eta;
-	delete	ringer_lvl2_phi;
-	delete	ringer_lvl2_et;
-
-	delete	t2ca_lvl2_eta;
-	delete	t2ca_lvl2_phi;
-	delete	t2ca_rcore;
-	delete	t2ca_eratio;
-	delete	t2ca_emes1;
-	delete	t2ca_eme;
-    delete  t2ca_ehades0;
-            
-}

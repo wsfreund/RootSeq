@@ -33,18 +33,17 @@ class RootSeq {
     TChain  *fillingChain;
     TChain  *readingChain;
 
-    unsigned    getLayerInit(unsigned numEvent, unsigned curLayer);
-    float       max_abs(unsigned layerInit, unsigned curLayer);
-    float       calcNorm0(unsigned layerInit, unsigned curLayer);
-    void        fillNormValues(float norm[], unsigned layerInit, unsigned curLayer);
-    void        applySequentialNorm(float norm[], unsigned layerInit, unsigned curLayer);
+    unsigned    getLayerInit(const unsigned numEvent, const unsigned curLayer);
+    float       max_abs(const unsigned layerInit, const unsigned curLayer);
+    float       calcNorm0(const unsigned layerInit, const unsigned curLayer);
+    void        fillNormValues(float &norm[], const unsigned layerInit, const unsigned curLayer);
+    void        applySequentialNorm(const float norm[], const unsigned layerInit, const unsigned curLayer);
 
 
 
     public:
 
-    RootSeq(TChain *&outsideReadingChain, TChain *&outsideFillingChain);
-    ~RootSeq();
+    RootSeq(TChain *outsideReadingChain, TChain *outsideFillingChain);
 
     CODE normalise();
 
