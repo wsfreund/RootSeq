@@ -169,7 +169,7 @@ RootSeq::CODE RootSeq::normalise(){
             }//Close Layer loop
 
         }//Close Events Loop
-
+        fillingTree->Fill();
     }//Close Entry Loop
 
     return RootSeq::OK;
