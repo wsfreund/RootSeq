@@ -10,8 +10,6 @@ int normalise(const char *inPut, const char *outPut){
 	TChain		*readingChain;
 	TTree		*normalizedData;
 
-	file		= new TFile(outPut,"recreate");
-
 	normalizedData = new TTree("CollectionTree", "Tree with sequential normalized rings and T2CaloData for HypoCompTool");
 
 	readingChain = new TChain("CollectionTree");
@@ -25,6 +23,7 @@ int normalise(const char *inPut, const char *outPut){
     std::cout<<"Passou normalise()\n";
 
 	TFile 		*file;
+	file		= new TFile(outPut,"recreate");
     normalizedData->Write();
 //    file->Close();
 
