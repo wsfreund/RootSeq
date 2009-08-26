@@ -169,6 +169,7 @@ RootSeq::CODE RootSeq::normalise(){
             }//Close Layer loop
 
         }//Close Events Loop
+        for(unsigned f=0; f<ringer_rings->size(); ++f) std::cout<<f<<" "<<ringer_rings->at(f)<<std::endl;
         fillingTree->Fill();
     }//Close Entry Loop
 
