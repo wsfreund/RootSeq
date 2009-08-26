@@ -1,6 +1,7 @@
 #ifndef ROOTSEQ
 
 #include<TChain.h>
+#include<TTree.h>
 #include<vector>
 #include<cmath>
 #include<iostream>
@@ -30,7 +31,7 @@ class RootSeq {
     std::vector<float>  *t2ca_ehades0;
 
 
-    TChain  *fillingChain;
+    TTree   *fillingTree;
     TChain  *readingChain;
 
     unsigned    getLayerInit(const unsigned numEvent, const unsigned curLayer);
@@ -43,7 +44,7 @@ class RootSeq {
 
     public:
 
-    RootSeq(TChain *outsideReadingChain, TChain *outsideFillingChain);
+    RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree);
 
     CODE normalise();
 
