@@ -21,7 +21,15 @@ int normalise(const char *inPut, const char *outPut){
 
 	RootSeq myRootSeq(readingChain, normalizedData);
 
-    myRootSeq.normalise();
+	int entries	= static_cast<int>(readingChain->GetEntries());
+    //Loop over all entries
+    for(int entry = 0; entry < entries; ++entry){
+        std::cout<<"Debug2\n";
+        std::cout<<readingChain<<std::endl;
+        readingChain->GetEntry(entry);
+        std::cout<<"Debug3\n";
+        myRootSeq.normalise();
+    }
 
     normalizedData->Write();
     file->Close();
