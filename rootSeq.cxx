@@ -82,7 +82,7 @@ inline float RootSeq::max_abs(const unsigned layerInit, const unsigned curLayer)
 
 }
 
-inline void RootSeq::fillNormValues(float &norm[], const unsigned layerInit, const unsigned curLayer){
+inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, const unsigned curLayer){
 
     if (norm[0]<stopEnergy){
 

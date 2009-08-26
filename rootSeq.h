@@ -36,7 +36,7 @@ class RootSeq {
     unsigned    getLayerInit(const unsigned numEvent, const unsigned curLayer);
     float       max_abs(const unsigned layerInit, const unsigned curLayer);
     float       calcNorm0(const unsigned layerInit, const unsigned curLayer);
-    void        fillNormValues(float &norm[], const unsigned layerInit, const unsigned curLayer);
+    void        fillNormValues(float norm[], const unsigned layerInit, const unsigned curLayer);
     void        applySequentialNorm(const float norm[], const unsigned layerInit, const unsigned curLayer);
 
 
