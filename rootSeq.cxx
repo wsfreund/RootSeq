@@ -1,8 +1,8 @@
 #include"rootSeq.h"
 
-RootSeq::RootSeq(TChain *outsideChain, TChain *outsideFillingChain){
+RootSeq::RootSeq(TChain *outsideReadingChain, TChain *outsideFillingChain){
 
-    readingChain = outsideChain;
+    readingChain = outsideReadingChain;
     fillingChain = outsideFillingChain;
 
 //NeuralRinger Variables
@@ -122,10 +122,10 @@ RootSeq::CODE RootSeq::normalise(){
     unsigned totalRings = 0;
     for(unsigned i =0; i<sizeof(ringsDist)/sizeof(unsigned); ++i) totalRings+=ringsDist[i];
     cout<<"Debug1\n";
-	unsigned entries	= static_cast<unsigned>(readingChain->GetEntries());
+	int entries	= static_cast<int>(readingChain->GetEntries());
 
     //Loop over all entries
-    for(unsigned entry = 0; entry < entries; ++entry){
+    for(int entry = 0; entry < entries; ++entry){
         cout<<"Debug2\n";
         readingChain->GetEntry(entry);
         cout<<"Debug3\n";

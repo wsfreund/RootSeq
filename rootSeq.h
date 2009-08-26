@@ -43,7 +43,7 @@ class RootSeq {
 
     public:
 
-    RootSeq(TChain *outsideChain, TChain *outsideFillingChain);
+    RootSeq(TChain *outsideReadingChain, TChain *outsideFillingChain);
     ~RootSeq();
 
     CODE normalise();
