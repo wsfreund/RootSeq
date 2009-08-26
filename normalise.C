@@ -17,19 +17,10 @@ int normalise(const char *inPut, const char *outPut){
 	readingChain->Add(inPut);
 	readingChain->SetBranchStatus("*",	false);
 
-    std::cout<<readingChain<<endl;
-
 	RootSeq myRootSeq(readingChain, normalizedData);
 
-	int entries	= static_cast<int>(readingChain->GetEntries());
-    //Loop over all entries
-    for(int entry = 0; entry < entries; ++entry){
-        std::cout<<"Debug2\n";
-        std::cout<<readingChain<<std::endl;
-        readingChain->GetEntry(entry);
-        std::cout<<"Debug3\n";
-        myRootSeq.normalise();
-    }
+    myRootSeq.normalise();
+
 
     normalizedData->Write();
     file->Close();
