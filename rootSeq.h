@@ -50,4 +50,7 @@ class RootSeq {
 };
 
 
+const unsigned  RootSeq::ringsDist[] = {8, 64, 8, 8, 4, 4, 4};
+
+
 #endif
