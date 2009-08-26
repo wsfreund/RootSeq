@@ -1,0 +1,4 @@
+Primeiro compile com .x loadNormalise.C no root, depois rode usando:
+
+normalise(caminhoParaNtupleLida,caminhoParaNtupleEscrita);
+
