@@ -33,6 +33,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TChain *outsideFillingChain){
 	readingChain->SetBranchAddress("T2CaEmE", 		&t2ca_eme);
 	readingChain->SetBranchAddress("T2CaHadES0", 	&t2ca_ehades0);
 
+
 //NeuralRinger
     fillingChain->SetBranchAddress("Ringer_Rings",      &ringer_rings);
     fillingChain->SetBranchAddress("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
@@ -118,33 +119,34 @@ inline void RootSeq::applySequentialNorm(float norm[], unsigned layerInit, unsig
 RootSeq::CODE RootSeq::normalise(){
 
     //Total rings size
-    cout<<"Debug\n";
+    std::cout<<"Debug\n";
     unsigned totalRings = 0;
     for(unsigned i =0; i<sizeof(ringsDist)/sizeof(unsigned); ++i) totalRings+=ringsDist[i];
-    cout<<"Debug1\n";
+    std::cout<<"Debug1\n";
 	int entries	= static_cast<int>(readingChain->GetEntries());
 
     //Loop over all entries
     for(int entry = 0; entry < entries; ++entry){
-        cout<<"Debug2\n";
+        std::cout<<"Debug2\n";
+        std::cout<<readingChain<<std::endl;
         readingChain->GetEntry(entry);
-        cout<<"Debug3\n";
+        std::cout<<"Debug3\n";
         //Case ringerRings have multiple ROIs will loop on this for:
         for(unsigned numEvent=0; numEvent < (ringer_rings->size()/totalRings); ++numEvent){
-            cout<<"Debug4\n";
+            std::cout<<"Debug4\n";
             //Looping over all Layers
             for(unsigned curLayer=0;  curLayer<sizeof(ringsDist)/sizeof(unsigned); ++curLayer){
-                cout<<"Debug5\n";
+                std::cout<<"Debug5\n";
                 float norm[ringsDist[curLayer]];//norm have the same size of its layer
 
                 unsigned layerInitialRing = getLayerInit(numEvent, curLayer);
 
                 // Calculate initial norm value
                 norm[0] = calcNorm0(layerInitialRing, curLayer);
-                cout<<"Debug6\n";
+                std::cout<<"Debug6\n";
                 //fillingNormValues
                 fillNormValues(norm, layerInitialRing, curLayer);
-                cout<<"Debug7\n";
+                std::cout<<"Debug7\n";
                 //ApplySequential Norm
                 applySequentialNorm(norm, layerInitialRing, curLayer);
 

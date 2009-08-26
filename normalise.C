@@ -17,6 +17,8 @@ int normalise(const char *inPut, const char *outPut){
 	readingChain->Add(inPut);
 	readingChain->SetBranchStatus("*",	false);
 
+    std::cout<<readingChain<<endl;
+
 	RootSeq myRootSeq(readingChain, normalizedData);
 
     myRootSeq.normalise();
