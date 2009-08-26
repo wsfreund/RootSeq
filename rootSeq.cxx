@@ -1,6 +1,6 @@
 #include"rootSeq.h"
 
-RootSeq::RootSeq(TChain *outsideReadingChain, TChain *outsideFillingChain){
+RootSeq::RootSeq(TChain *&outsideReadingChain, TChain *&outsideFillingChain){
 
     readingChain = outsideReadingChain;
     fillingChain = outsideFillingChain;
