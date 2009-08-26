@@ -57,9 +57,10 @@ void RootSeq::copyVectors(){
     register unsigned i;
 
     for(i=0; i<ringer_rings->size(); ++i) {
-        std::cout<<ringer_rings-at(i)<<std::endl;
+        std::cout<<ringer_rings->at(i)<<std::endl;
         ringer_rings2->push_back(ringer_rings->at(i));
-        std::cout<<ringer_rings2-at(i)<<std::endl;
+        std::cout<<ringer_rings2->at(i)<<std::endl;
+    }
 //   for(i=0; i<ringer_lvl2_eta->size(); ++i) ringer_lvl2_eta2->push_back(ringer_lvl2_eta->at(i));
 //    for(i=0; i<ringer_lvl2_phi->size(); ++i) ringer_lvl2_phi2->push_back(ringer_lvl2_phi->at(i));
 //    for(i=0; i<ringer_lvl2_et->size(); ++i) ringer_lvl2_et2->push_back(ringer_lvl2_et->at(i));
