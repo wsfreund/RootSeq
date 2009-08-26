@@ -118,32 +118,33 @@ inline void RootSeq::applySequentialNorm(float norm[], unsigned layerInit, unsig
 RootSeq::CODE RootSeq::normalise(){
 
     //Total rings size
+    cout<<"Debug\n";
     unsigned totalRings = 0;
     for(unsigned i =0; i<sizeof(ringsDist)/sizeof(unsigned); ++i) totalRings+=ringsDist[i];
-    
+    cout<<"Debug1\n";
 	unsigned entries	= static_cast<unsigned>(readingChain->GetEntries());
 
     //Loop over all entries
     for(unsigned entry = 0; entry < entries; ++entry){
-
+        cout<<"Debug2\n";
         readingChain->GetEntry(entry);
-
+        cout<<"Debug3\n";
         //Case ringerRings have multiple ROIs will loop on this for:
         for(unsigned numEvent=0; numEvent < (ringer_rings->size()/totalRings); ++numEvent){
-
+            cout<<"Debug4\n";
             //Looping over all Layers
             for(unsigned curLayer=0;  curLayer<sizeof(ringsDist)/sizeof(unsigned); ++curLayer){
-
+                cout<<"Debug5\n";
                 float norm[ringsDist[curLayer]];//norm have the same size of its layer
 
                 unsigned layerInitialRing = getLayerInit(numEvent, curLayer);
 
                 // Calculate initial norm value
                 norm[0] = calcNorm0(layerInitialRing, curLayer);
-
+                cout<<"Debug6\n";
                 //fillingNormValues
                 fillNormValues(norm, layerInitialRing, curLayer);
-
+                cout<<"Debug7\n";
                 //ApplySequential Norm
                 applySequentialNorm(norm, layerInitialRing, curLayer);
 
