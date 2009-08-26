@@ -1,4 +1,4 @@
-Primeiro compile com .x loadNormalise.C no root, depois rode usando:
+Primeiro compile com .x loadRootSeq.C no root e depois use a função:
 
 normalise(caminhoParaNtupleLida,caminhoParaNtupleEscrita);
 
