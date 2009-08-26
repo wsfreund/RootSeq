@@ -26,8 +26,8 @@ int normalise(const char *inPut, const char *outPut){
     std::cout<<"Passou normalise()\n";
 
 
-    normalizedData->Write();
-//    file->Close();
+    normalizedData->GetCurrentFile()->Write();
+    normalizedData->GetCurrentFile()->Close();
 
 //    delete file;
     delete myRootSeq;
