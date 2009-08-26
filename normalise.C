@@ -29,7 +29,6 @@ int normalise(const char *inPut, const char *outPut){
     normalizedData->GetCurrentFile()->Close();
 
 //    delete file;
-    delete myRootSeq;
     delete readingChain;
     delete normalizedData;
 
