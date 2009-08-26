@@ -125,12 +125,7 @@ RootSeq::CODE RootSeq::normalise(){
     std::cout<<"Debug1\n";
 	int entries	= static_cast<int>(readingChain->GetEntries());
 
-    //Loop over all entries
-    for(int entry = 0; entry < entries; ++entry){
-        std::cout<<"Debug2\n";
-        std::cout<<readingChain<<std::endl;
-        readingChain->GetEntry(entry);
-        std::cout<<"Debug3\n";
+
         //Case ringerRings have multiple ROIs will loop on this for:
         for(unsigned numEvent=0; numEvent < (ringer_rings->size()/totalRings); ++numEvent){
             std::cout<<"Debug4\n";
@@ -154,7 +149,6 @@ RootSeq::CODE RootSeq::normalise(){
 
         }//Close Events Loop
 
-    }//Close Chain Loop
     
     return RootSeq::OK;
 
