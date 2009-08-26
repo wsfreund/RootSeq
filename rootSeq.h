@@ -48,6 +48,7 @@ class RootSeq {
     TChain  *readingChain;
 
     void        copyVectors();
+    void        clearVectors();
     unsigned    getLayerInit(const unsigned numEvent, const unsigned curLayer);
     float       max_abs(const unsigned layerInit, const unsigned curLayer);
     float       calcNorm0(const unsigned layerInit, const unsigned curLayer);

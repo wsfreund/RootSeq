@@ -56,9 +56,10 @@ void RootSeq::copyVectors(){
 
     register unsigned i;
 
+    ringer_rings2->insert(ringer_rings2->begin(), ringer_rings->begin(), ringer_rings->end());
     for(i=0; i<ringer_rings->size(); ++i) {
         std::cout<<ringer_rings->at(i)<<std::endl;
-        ringer_rings2->push_back(ringer_rings->at(i));
+        //ringer_rings2->push_back(ringer_rings->at(i));
         std::cout<<ringer_rings2->at(i)<<std::endl;
     }
 //   for(i=0; i<ringer_lvl2_eta->size(); ++i) ringer_lvl2_eta2->push_back(ringer_lvl2_eta->at(i));
@@ -75,6 +76,11 @@ void RootSeq::copyVectors(){
 
 }
 
+void RootSeq::clearVectors(){
+
+    ringer_rings2->clear();
+
+}
 
 inline unsigned RootSeq::getLayerInit(const unsigned numEvent, const unsigned curLayer){
     unsigned layerInitialRing=0;
@@ -182,7 +188,7 @@ RootSeq::CODE RootSeq::normalise(){
             }//Close Layer loop
 
         }//Close Events Loop
-
+        clearVectors();
     }//Close Entry Loop
 
     return RootSeq::OK;
