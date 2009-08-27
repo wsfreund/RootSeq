@@ -18,7 +18,10 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
     t2ca_eme		=	new std::vector<float>;
     t2ca_ehades0	=	new std::vector<float>;
 
-    if (DEBUG)  debugFile = new ofstream("/tmp/ws-debug.txt", ios::out | ios::trunc);
+    if (DEBUG)  {
+        debugFile = new ofstream("/tmp/ws-debug.txt", ios::out | ios::trunc);
+        debugFile->precision(6);
+        debugFile->setf(ios::boolalpha);
     else debugFile = NULL;
 //NeuralRinger Variables
     readingChain->SetBranchStatus("Ringer_Rings", 		true);
