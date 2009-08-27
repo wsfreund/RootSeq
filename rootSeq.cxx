@@ -22,6 +22,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
         debugFile = new ofstream("/tmp/ws-debug.txt", ios::out | ios::trunc);
         debugFile->precision(6);
         debugFile->setf(ios::boolalpha);
+    }
     else debugFile = NULL;
 //NeuralRinger Variables
     readingChain->SetBranchStatus("Ringer_Rings", 		true);
