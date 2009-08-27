@@ -84,7 +84,7 @@ inline float RootSeq::calcNorm0(const unsigned layerInit, const unsigned curLaye
         if (DEBUG && (curLyrRing+1%8)==0 && (curLyrRing!=curLyrRing-1)) *debugFile<<std::endl;
         vNorm+=fabs(ringer_rings->at(layerInit+curLyrRing));
     }
-    if (DEBUG) *debugFile<<"\n Its Energy is : "<<vNorm<<std::endl;
+    if (DEBUG) *debugFile<<"\n Its Total Energy is : "<<vNorm<<std::endl;
     return vNorm;
 
 }
@@ -133,7 +133,7 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
         if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" > "<<" stopEnergy = "<<stopEnergy<<std::endl;
         bool fixed = false;
         for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
-            if (!(norm[curLyrRing-1]<stopEnergy) || !fixed){
+            if (!(norm[curLyrRing-1]<stopEnergy) && !fixed){
                 norm[curLyrRing] = norm[ curLyrRing - 1] - fabs(ringer_rings->at(layerInit + curLyrRing-1));
                 if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and "<<norm[curLyrRing-1]<<" < "<<stopEnergy<<" = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<curLyrRing<<"] = "<<norm[curLyrRing - 1]<<" - "<<fabs(ringer_rings->at(layerInit + curLyrRing-1))<<" = "<<norm[curLyrRing]<<std::endl;
             }
