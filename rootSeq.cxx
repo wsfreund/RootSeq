@@ -21,7 +21,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
     if (DEBUG)  {
         debugFile = new ofstream("/tmp/ws-debug.txt", ios::out | ios::trunc);
         debugFile->precision(6);
-        debugFile->setf(ios::boosetw(12)lalpha);
+        debugFile->setf(ios::boolalpha);
     }
     else debugFile = NULL;
 //NeuralRinger Variables
@@ -161,7 +161,7 @@ inline void RootSeq::applySequentialNorm(const float norm[], const unsigned laye
     if (DEBUG) *debugFile<<"Inside Sequential Norm\n";
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
 
-        if (DEBUG) *debugFile << "Ring number "setw(2)<<curLyrRing+layerInit+1<< " new value = (old value)" <<setw(12)<<internal<< ringer_rings->at(layerInit + curLyrRing) << " / (norm[" <<setw(2)<<setfill('0')<< curLyrRing << setfill(' ')<< "]) "<<setw(12) <<norm[curLyrRing];
+        if (DEBUG) *debugFile << "Ring number "<<setw(2)<<curLyrRing+layerInit+1<< " new value = (old value)" <<setw(12)<<internal<< ringer_rings->at(layerInit + curLyrRing) << " / (norm[" <<setw(2)<<setfill('0')<< curLyrRing << setfill(' ')<< "]) "<<setw(12) <<norm[curLyrRing];
         ringer_rings->at(layerInit + curLyrRing)/=norm[curLyrRing];
         if (DEBUG) *debugFile<<" = (new value) "<<ringer_rings->at(layerInit + curLyrRing)<<std::endl;
 
