@@ -1,6 +1,7 @@
 #include"rootSeq.h"
 
-RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
+RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree) 
+    : debugFile(NULL) {
 
     readingChain = outsideReadingChain;
     fillingTree = outsidefillingTree;
@@ -9,6 +10,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
 	ringer_lvl2_eta	=	new std::vector<float>;
 	ringer_lvl2_phi	=	new std::vector<float>;
 	ringer_lvl2_et  =	new std::vector<float>;
+    ringer_nclusters=   new std::vector<float>;
 
 	t2ca_lvl2_eta	=	new std::vector<float>;
 	t2ca_lvl2_phi   =	new std::vector<float>;
@@ -17,18 +19,22 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
     t2ca_emes1		=	new std::vector<float>;
     t2ca_eme		=	new std::vector<float>;
     t2ca_ehades0	=	new std::vector<float>;
+    t2canclus       =   new std::vector<float>;
+    t2cahade        =   new std::vector<float>;
+
 
     if (DEBUG)  {
         debugFile = new ofstream("/tmp/ws-debug.txt", ios::out | ios::trunc);
         debugFile->precision(6);
         debugFile->setf(ios::boolalpha);
     }
-    else debugFile = NULL;
+
 //NeuralRinger Variables
     readingChain->SetBranchStatus("Ringer_Rings", 		true);
 	readingChain->SetBranchStatus("Ringer_LVL2_Eta", 	true);
 	readingChain->SetBranchStatus("Ringer_LVL2_Phi",    true);
 	readingChain->SetBranchStatus("Ringer_LVL2_Et",		true);
+	readingChain->SetBranchStatus("Ringer_NClusters",	true);
 
 //T2Calo Variables
 	readingChain->SetBranchStatus("T2CaEta", 		true);
@@ -38,12 +44,17 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
 	readingChain->SetBranchStatus("T2CaEmES1", 	    true);
 	readingChain->SetBranchStatus("T2CaEmE", 		true);
 	readingChain->SetBranchStatus("T2CaHadES0", 	true);
+	readingChain->SetBranchStatus("T2CaNclus",   	true);
+	readingChain->SetBranchStatus("T2CaHadE",   	true);
+
+
 
 //NeuralRinger Variables
     readingChain->SetBranchAddress("Ringer_Rings",      &ringer_rings);
     readingChain->SetBranchAddress("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
     readingChain->SetBranchAddress("Ringer_LVL2_Phi",   &ringer_lvl2_phi);       
     readingChain->SetBranchAddress("Ringer_LVL2_Et",	&ringer_lvl2_et);
+    readingChain->SetBranchAddress("Ringer_NClusters",	&ringer_nclusters);
 
 //T2Calo Variables
 	readingChain->SetBranchAddress("T2CaEta", 		&t2ca_lvl2_eta);
@@ -53,12 +64,15 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
 	readingChain->SetBranchAddress("T2CaEmES1", 	&t2ca_emes1);
 	readingChain->SetBranchAddress("T2CaEmE", 		&t2ca_eme);
 	readingChain->SetBranchAddress("T2CaHadES0", 	&t2ca_ehades0);
+	readingChain->SetBranchAddress("T2CaNclus", 	&t2canclus);
+	readingChain->SetBranchAddress("T2CaHadE", 	    &t2cahade);
 
 //NeuralRinger
     fillingTree->Branch("Ringer_Rings",      &ringer_rings);
     fillingTree->Branch("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
     fillingTree->Branch("Ringer_LVL2_Phi",   &ringer_lvl2_phi);       
     fillingTree->Branch("Ringer_LVL2_Et",	 &ringer_lvl2_et);
+    fillingTree->Branch("Ringer_NClusters",	 &ringer_nclusters);
 
 //T2Calo
 	fillingTree->Branch("T2CaEta", 		&t2ca_lvl2_eta);
@@ -68,6 +82,8 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree){
 	fillingTree->Branch("T2CaEmES1", 	&t2ca_emes1);
 	fillingTree->Branch("T2CaEmE", 		&t2ca_eme);
 	fillingTree->Branch("T2CaHadES0", 	&t2ca_ehades0);
+	fillingTree->Branch("T2CaNclus", 	&t2canclus);
+	fillingTree->Branch("T2CaHadE", 	&t2cahade);
 
 }
 
@@ -239,6 +255,7 @@ RootSeq::~RootSeq(){
 	delete ringer_lvl2_eta;	
 	delete ringer_lvl2_phi;	
 	delete ringer_lvl2_et;  
+    delete ringer_nclusters;
 
 	delete t2ca_lvl2_eta;	
 	delete t2ca_lvl2_phi;   
@@ -246,5 +263,8 @@ RootSeq::~RootSeq(){
     delete t2ca_eratio;		
     delete t2ca_emes1;		
     delete t2ca_eme;		
-    delete t2ca_ehades0;	
+    delete t2ca_ehades0;
+    delete t2canclus;
+    delete t2cahade;
+	
 }

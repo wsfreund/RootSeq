@@ -25,6 +25,7 @@ class RootSeq {
 	std::vector<float>	*ringer_lvl2_eta;
 	std::vector<float>	*ringer_lvl2_phi;
 	std::vector<float>	*ringer_lvl2_et;
+	std::vector<float>	*ringer_nclusters;
 
 	std::vector<float>	*t2ca_lvl2_eta;
 	std::vector<float>	*t2ca_lvl2_phi;
@@ -33,7 +34,8 @@ class RootSeq {
 	std::vector<float>	*t2ca_emes1;
 	std::vector<float>	*t2ca_eme;
     std::vector<float>  *t2ca_ehades0;
-
+	std::vector<float>	*t2canclus;
+	std::vector<float>	*t2cahade;
 
     TTree   *fillingTree;
     TChain  *readingChain;
