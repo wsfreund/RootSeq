@@ -141,11 +141,11 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
         for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
             if (!(norm[curLyrRing-1]<stopEnergy) && !fixed){
                 norm[curLyrRing] = norm[ curLyrRing - 1] - fabs(ringer_rings->at(layerInit + curLyrRing-1));
-                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and "<<setw(8)<<norm[curLyrRing-1]<<" < "<<stopEnergy<<" = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<setw(2)<<setfill('0')<<curLyrRing<<"] = "<<setw(8)<<internal<<norm[curLyrRing - 1]<<" - "<<setw(8)<<fabs(ringer_rings->at(layerInit + curLyrRing-1))<<" = "<<norm[curLyrRing]<<std::endl;
+                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and "<<setw(8)<<norm[curLyrRing-1]<<" < "<<stopEnergy<<" = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<setw(2)<<setfill('0')<<curLyrRing<<"] = "<<setw(8)<<setfill(' ')<<internal<<norm[curLyrRing - 1]<<" - "<<setw(8)<<fabs(ringer_rings->at(layerInit + curLyrRing-1))<<" = "<<norm[curLyrRing]<<std::endl;
             }
             else {
                 norm[curLyrRing] = norm[ curLyrRing - 1];
-                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and "<<norm[curLyrRing-1]<<" < "<<stopEnergy<<" = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<setw(2)<<setfill('0')<<curLyrRing<<"] = "<<norm[curLyrRing]<<std::endl;
+                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and "<<norm[curLyrRing-1]<<" < "<<stopEnergy<<" = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<setw(2)<<setfill('0')<<curLyrRing<<setfill(' ')<<"] = "<<norm[curLyrRing]<<std::endl;
                 fixed = true;
             }
         }
@@ -161,7 +161,7 @@ inline void RootSeq::applySequentialNorm(const float norm[], const unsigned laye
     if (DEBUG) *debugFile<<"Inside Sequential Norm\n";
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
 
-        if (DEBUG) *debugFile << "Ring number " <<setw(8)<<curLyrRing+layerInit+1<< " new value = (old value)" <<setw(8)<<internal<< ringer_rings->at(layerInit + curLyrRing) << " / (norm[" <<setw(2)<<setfill('0')<< curLyrRing << "]) " <<norm[curLyrRing];
+        if (DEBUG) *debugFile << "Ring number " <<setw(8)<<curLyrRing+layerInit+1<< " new value = (old value)" <<setw(8)<<internal<< ringer_rings->at(layerInit + curLyrRing) << " / (norm[" <<setw(2)<<setfill('0')<< curLyrRing << setfill(' ')<< "]) " <<norm[curLyrRing];
         ringer_rings->at(layerInit + curLyrRing)/=norm[curLyrRing];
         if (DEBUG) *debugFile<<" = (new value) "<<ringer_rings->at(layerInit + curLyrRing)<<std::endl;
 
