@@ -81,7 +81,7 @@ inline float RootSeq::calcNorm0(const unsigned layerInit, const unsigned curLaye
     if (DEBUG) *debugFile<<"Calculating Norm0, Current Energy rings for this Layer:\n";
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
         if (DEBUG) *debugFile<<ringer_rings->at(layerInit+curLyrRing)<<"    ";
-        if (DEBUG && curLyrRing%8==0 && curLyrRing) *debugFile<<std::endl;
+        if (DEBUG && (curLyrRing+1%8)==0 && (curLyrRing!=curLyrRing-1)) *debugFile<<std::endl;
         vNorm+=fabs(ringer_rings->at(layerInit+curLyrRing));
     }
     if (DEBUG) *debugFile<<"\n Its Energy is : "<<vNorm<<std::endl;
@@ -135,7 +135,7 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
         for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
             if (!(norm[curLyrRing-1]<stopEnergy) || !fixed){
                 norm[curLyrRing] = norm[layerInit + curLyrRing - 1] - fabs(ringer_rings->at(layerInit + curLyrRing-1));
-                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and (norm[curLyrRing-1]<stopEnergy) = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<curLyrRing<<"] = "<<norm[layerInit + curLyrRing - 1]<<" - "<<fabs(ringer_rings->at(layerInit + curLyrRing-1))<<" = "<<norm[curLyrRing]<<std::endl;
+                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and "norm[curLyrRing-1] " < "stopEnergy = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<curLyrRing<<"] = "<<norm[layerInit + curLyrRing - 1]<<" - "<<fabs(ringer_rings->at(layerInit + curLyrRing-1))<<" = "<<norm[curLyrRing]<<std::endl;
             }
             else {
                 norm[curLyrRing] = norm[layerInit + curLyrRing - 1];
@@ -177,13 +177,16 @@ RootSeq::CODE RootSeq::normalise(){
     //Loop over all entries
     for(int entry = 0; entry < entries; ++entry){
         if (DEBUG) *debugFile<<"-----------"<<std::endl;
+        if (DEBUG) *debugFile<<"Initializing Entry Number "<< entry+1<<std::endl;
         readingChain->GetEntry(entry);
         //Case ringerRings have multiple ROIs will loop on this for:
         for(unsigned numEvent=0; numEvent < (ringer_rings->size()/totalRings); ++numEvent){
             //Looping over all Layers
             if (DEBUG) *debugFile<<"----------------------"<<std::endl;
+            if (DEBUG) *debugFile<<"Initializing Event Number "<< numEvent+1<<std::endl;
             for(unsigned curLayer=0;  curLayer<sizeof(ringsDist)/sizeof(unsigned); ++curLayer){
                 if (DEBUG) *debugFile<<"---------------------------------"<<std::endl;
+                if (DEBUG) *debugFile<<"Initializing LAYER Number "<<curLayer+1<<std::endl;
 
                 float norm[ringsDist[curLayer]];//norm have the same size of its layer
 
