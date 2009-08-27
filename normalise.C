@@ -22,8 +22,8 @@ int normalise(const char *inPut, const char *outPut){
 
     myRootSeq.normalise();
 
-//    normalizedData->Write();
-    normalizedData->GetCurrentFile()->Write();
+    normalizedData->Write();
+//    normalizedData->GetCurrentFile()->Write();
     file->Close();
 
     delete file;
