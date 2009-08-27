@@ -37,8 +37,8 @@ class RootSeq {
 
 	std::vector<float>	*t2cahade;
 
-	UInt_t          	*ringer_nclusters;
-    UInt_t          	*t2canclus;
+	std::vector<UInt_t>          	*ringer_nclusters;
+    std::vector<UInt_t>          	*t2canclus;
 
     TTree   *fillingTree;
     TChain  *readingChain;
