@@ -161,7 +161,7 @@ inline void RootSeq::applySequentialNorm(const float norm[], const unsigned laye
     if (DEBUG) *debugFile<<"Inside Sequential Norm\n";
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
 
-        if (DEBUG) *debugFile << "Ring number " <<setw(8)setw(8)<<curLyrRing+layerInit+1<< " new value = (old value)" <<setw(8)setw(8)<<internal<< ringer_rings->at(layerInit + curLyrRing) << " / (norm[" <<setw(2)<< curLyrRing << "]) " <<norm[curLyrRing];
+        if (DEBUG) *debugFile << "Ring number " <<setw(8)<<curLyrRing+layerInit+1<< " new value = (old value)" <<setw(8)<<internal<< ringer_rings->at(layerInit + curLyrRing) << " / (norm[" <<setw(2)<<setfill('0')<< curLyrRing << "]) " <<norm[curLyrRing];
         ringer_rings->at(layerInit + curLyrRing)/=norm[curLyrRing];
         if (DEBUG) *debugFile<<" = (new value) "<<ringer_rings->at(layerInit + curLyrRing)<<std::endl;
 
