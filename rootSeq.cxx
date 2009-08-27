@@ -202,6 +202,12 @@ RootSeq::CODE RootSeq::normalise(){
         if (DEBUG) *debugFile<<"-----------"<<std::endl;
         if (DEBUG) *debugFile<<"Initializing Entry Number "<< entry+1<<std::endl;
         readingChain->GetEntry(entry);
+
+        if (DEBUG) *debugFile<<"Ringer_rings values are : "<<std::endl;
+
+        if (DEBUG) for(unsigned f=0; (DEBUG && f<ringer_rings->size() ); ++f)
+            *debugFile<<f<<" "<<ringer_rings->at(f)<<std::endl;
+
         //Case ringerRings have multiple ROIs will loop on this for:
         for(unsigned numEvent=0; numEvent < (ringer_rings->size()/totalRings); ++numEvent){
             //Looping over all Layers
@@ -235,9 +241,9 @@ RootSeq::CODE RootSeq::normalise(){
         if (DEBUG) *debugFile<<"-----------"<<std::endl;
         if (DEBUG) *debugFile<<"Filling Tree with ringer_rings values of : "<<std::endl;
 
-        for(unsigned f=0; (DEBUG && f<ringer_rings->size() ); ++f) {
+        if (DEBUG) for(unsigned f=0; (DEBUG && f<ringer_rings->size() ); ++f)
             *debugFile<<f<<" "<<ringer_rings->at(f)<<std::endl;
-        }
+
         fillingTree->Fill();
     }//Close Entry Loop
 
