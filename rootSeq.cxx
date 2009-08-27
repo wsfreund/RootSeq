@@ -81,7 +81,7 @@ inline float RootSeq::calcNorm0(const unsigned layerInit, const unsigned curLaye
     if (DEBUG) *debugFile<<"Calculating Norm0, Current Energy rings for this Layer:\n";
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
         if (DEBUG) *debugFile<<ringer_rings->at(layerInit+curLyrRing)<<"    ";
-        if (DEBUG && curLyr%8==0 && curLyr) *debugFile<<std::endl;
+        if (DEBUG && curLyrRing%8==0 && curLyrRing) *debugFile<<std::endl;
         vNorm+=fabs(ringer_rings->at(layerInit+curLyrRing));
     }
     if (DEBUG) *debugFile<<"\n Its Energy is : "<<vNorm<<std::endl;
