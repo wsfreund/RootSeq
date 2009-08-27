@@ -135,7 +135,7 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
         for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
             if (!(norm[curLyrRing-1]<stopEnergy) || !fixed){
                 norm[curLyrRing] = norm[layerInit + curLyrRing - 1] - fabs(ringer_rings->at(layerInit + curLyrRing-1));
-                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and "norm[curLyrRing-1] " < "stopEnergy = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<curLyrRing<<"] = "<<norm[layerInit + curLyrRing - 1]<<" - "<<fabs(ringer_rings->at(layerInit + curLyrRing-1))<<" = "<<norm[curLyrRing]<<std::endl;
+                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and "<<norm[curLyrRing-1]<<" < "<<stopEnergy<<" = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<curLyrRing<<"] = "<<norm[layerInit + curLyrRing - 1]<<" - "<<fabs(ringer_rings->at(layerInit + curLyrRing-1))<<" = "<<norm[curLyrRing]<<std::endl;
             }
             else {
                 norm[curLyrRing] = norm[layerInit + curLyrRing - 1];
