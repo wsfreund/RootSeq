@@ -139,7 +139,7 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
             }
             else {
                 norm[curLyrRing] = norm[ curLyrRing - 1];
-                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" norm["<<curLyrRing<<"] = "<<norm[curLyrRing];
+                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" norm["<<curLyrRing<<"] = "<<norm[curLyrRing]<<std::endl;
                 fixed = true;
             }
         }
