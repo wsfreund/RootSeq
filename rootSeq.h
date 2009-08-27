@@ -9,6 +9,7 @@
 #include<iomanip>
 
 
+
 #define ROOTSEQ
 
 
@@ -37,8 +38,8 @@ class RootSeq {
 
 	std::vector<float>	*t2cahade;
 
-	UInt_t          	*ringer_nclusters;
-    UInt_t          	*t2canclus;
+	unsigned int          	*ringer_nclusters;
+    unsigned int          	*t2canclus;
 
     TTree   *fillingTree;
     TChain  *readingChain;
