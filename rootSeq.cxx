@@ -10,7 +10,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
 	ringer_lvl2_eta	=	new std::vector<float>;
 	ringer_lvl2_phi	=	new std::vector<float>;
 	ringer_lvl2_et  =	new std::vector<float>;
-    ringer_nclusters=   NULL;
+
 
 
 	t2ca_lvl2_eta	=	new std::vector<float>;
@@ -20,7 +20,6 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
     t2ca_emes1		=	new std::vector<float>;
     t2ca_eme		=	new std::vector<float>;
     t2ca_ehades0	=	new std::vector<float>;
-    t2canclus       =   NULL;
     t2cahade        =   new std::vector<float>;
 
 
@@ -74,7 +73,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
     fillingTree->Branch("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
     fillingTree->Branch("Ringer_LVL2_Phi",   &ringer_lvl2_phi);       
     fillingTree->Branch("Ringer_LVL2_Et",	 &ringer_lvl2_et);
-    fillingTree->Branch("Ringer_NClusters",	 &ringer_nclusters);
+    fillingTree->Branch("Ringer_NClusters",	 &ringer_nclusters, "ringer_nclusters/i");
 
 //T2Calo
 	fillingTree->Branch("T2CaEta", 		&t2ca_lvl2_eta);
@@ -84,7 +83,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
 	fillingTree->Branch("T2CaEmES1", 	&t2ca_emes1);
 	fillingTree->Branch("T2CaEmE", 		&t2ca_eme);
 	fillingTree->Branch("T2CaHadES0", 	&t2ca_ehades0);
-	fillingTree->Branch("T2CaNclus", 	&t2canclus);
+	fillingTree->Branch("T2CaNclus", 	&t2canclus, "t2canclus/i");
 	fillingTree->Branch("T2CaHadE", 	&t2cahade);
 
 }
