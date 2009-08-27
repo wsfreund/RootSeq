@@ -84,7 +84,7 @@ inline float RootSeq::calcNorm0(const unsigned layerInit, const unsigned curLaye
     float vNorm = 0.;
     if (DEBUG) *debugFile<<"Calculating Norm0, Current Energy rings for this Layer:\n";
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
-        if (DEBUG) *debugFile<<setw(8)<<internalsetw(8)<<ringer_rings->at(layerInit+curLyrRing)<<"    ";
+        if (DEBUG) *debugFile<<setw(8)<<internal<<ringer_rings->at(layerInit+curLyrRing)<<"    ";
         if (DEBUG && ((curLyrRing+1)%8)==0 && (curLyrRing!=ringsDist[curLayer]-1)) *debugFile<<std::endl;
         vNorm+=fabs(ringer_rings->at(layerInit+curLyrRing));
     }
@@ -141,11 +141,11 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
         for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
             if (!(norm[curLyrRing-1]<stopEnergy) && !fixed){
                 norm[curLyrRing] = norm[ curLyrRing - 1] - fabs(ringer_rings->at(layerInit + curLyrRing-1));
-                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and "<<setw(8)<<norm[curLyrRing-1]<<" < "<<stopEnergy<<" = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<setw(2)setw(8)<<curLyrRing<<"] = "<<setw(8)<<internalsetw(8)<<norm[curLyrRing - 1]<<" - "<<setw(8)<<internalsetw(8)<<fabs(ringer_rings->at(layerInit + curLyrRing-1))<<" = "<<norm[curLyrRing]<<std::endl;
+                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and "<<setw(8)<<norm[curLyrRing-1]<<" < "<<stopEnergy<<" = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<setw(2)<<setfill('0')<<curLyrRing<<"] = "<<setw(8)<<internal<<norm[curLyrRing - 1]<<" - "<<setw(8)<<fabs(ringer_rings->at(layerInit + curLyrRing-1))<<" = "<<norm[curLyrRing]<<std::endl;
             }
             else {
                 norm[curLyrRing] = norm[ curLyrRing - 1];
-                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and "<<norm[curLyrRing-1]<<" < "<<stopEnergy<<" = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<setw(2)setw(8)<<curLyrRing<<"] = "<<norm[curLyrRing]<<std::endl;
+                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and "<<norm[curLyrRing-1]<<" < "<<stopEnergy<<" = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<setw(2)<<setfill('0')<<curLyrRing<<"] = "<<norm[curLyrRing]<<std::endl;
                 fixed = true;
             }
         }
