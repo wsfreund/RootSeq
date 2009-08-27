@@ -105,17 +105,17 @@ inline float RootSeq::max_abs(const unsigned layerInit, const unsigned curLayer)
 inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, const unsigned curLayer){
 
     if (DEBUG) *debugFile<<"--------------------------------------------"<<std::endl;
-    if (DEBUG) *debugFile<<"Inside FillNormValues.";
+    if (DEBUG) *debugFile<<"Inside FillNormValues.\n";
     if (norm[0]<stopEnergy){
 
         float layerMax = max_abs(layerInit, curLayer);
 
         if (norm[0]<layerMax){
-            if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<" MaxValue for this Layer"<<layerMax<<" and now will be the norm[0]value"<<std::endl;
+            if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<" : MaxValue for this Layer "<<layerMax<<" and now will be the norm[0]value"<<std::endl;
             norm[0]=layerMax;
         }
         else 
-            if (DEBUG) *debugFile<<"Norm[0] = "<< norm[0] << " < " <<" stopEnergy = "<<stopEnergy<<" MaxValue for this Layer"<<layerMax<<" that is lesser than norm[0]"<<std::endl;
+            if (DEBUG) *debugFile<<"Norm[0] = "<< norm[0] << " < " <<" stopEnergy = "<<stopEnergy<<" MaxValue for this Layer "<<layerMax<<" that is lesser than norm[0]"<<std::endl;
         
         if (DEBUG) *debugFile<<"Applying energyThreshold test\n";
 
@@ -123,6 +123,8 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
             if (DEBUG) *debugFile<<"norm[0] < energyThreshold("<<energyThreshold<<") and now norm[0] = energyThreshold\n";
             norm[0]=energyThreshold;
         }
+        else 
+            if (DEBUG) *debugFile<<"norm[0] > energyThreshold("<<energyThreshold<<") and is still the same\n";
 
         //Setting all layer rings normalized by norm0:
         for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
@@ -139,7 +141,7 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
             }
             else {
                 norm[curLyrRing] = norm[ curLyrRing - 1];
-                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" norm["<<curLyrRing<<"] = "<<norm[curLyrRing]<<std::endl;
+                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and "<<norm[curLyrRing-1]<<" < "<<stopEnergy<<" = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<curLyrRing<<"] = "<<norm[curLyrRing]<<std::endl;
                 fixed = true;
             }
         }
