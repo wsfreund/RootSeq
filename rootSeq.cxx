@@ -81,9 +81,10 @@ inline float RootSeq::calcNorm0(const unsigned layerInit, const unsigned curLaye
     if (DEBUG) *debugFile<<"Calculating Norm0, Current Energy rings for this Layer:\n";
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
         if (DEBUG) *debugFile<<ringer_rings->at(layerInit+curLyrRing)<<"    ";
+        if (DEBUG && curLyr%8==0 && curLyr) *debugFile<<std::endl;
         vNorm+=fabs(ringer_rings->at(layerInit+curLyrRing));
     }
-    if (DEBUG) *debugFile<<"\n Its mean is : "<<vNorm<<std::endl;
+    if (DEBUG) *debugFile<<"\n Its Energy is : "<<vNorm<<std::endl;
     return vNorm;
 
 }
@@ -103,6 +104,7 @@ inline float RootSeq::max_abs(const unsigned layerInit, const unsigned curLayer)
 
 inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, const unsigned curLayer){
 
+    if (DEBUG) *debugFile<<"--------------------------------------------"<<std::endl;
     if (DEBUG) *debugFile<<"Inside FillNormValues.";
     if (norm[0]<stopEnergy){
 
@@ -133,7 +135,7 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
         for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
             if (!(norm[curLyrRing-1]<stopEnergy) || !fixed){
                 norm[curLyrRing] = norm[layerInit + curLyrRing - 1] - fabs(ringer_rings->at(layerInit + curLyrRing-1));
-                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<"and (norm[curLyrRing-1]<stopEnergy) = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<curLyrRing<<"] = "<<norm[layerInit + curLyrRing - 1]<<" - "<<fabs(ringer_rings->at(layerInit + curLyrRing-1))<<" = "<<norm[curLyrRing];
+                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and (norm[curLyrRing-1]<stopEnergy) = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<curLyrRing<<"] = "<<norm[layerInit + curLyrRing - 1]<<" - "<<fabs(ringer_rings->at(layerInit + curLyrRing-1))<<" = "<<norm[curLyrRing]<<std::endl;
             }
             else {
                 norm[curLyrRing] = norm[layerInit + curLyrRing - 1];
@@ -144,10 +146,12 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
 
     }
     if (DEBUG) *debugFile<<"Finished fillNormValues\n";
+    if (DEBUG) *debugFile<<"--------------------------------------------"<<std::endl;
 }
 
 inline void RootSeq::applySequentialNorm(const float norm[], const unsigned layerInit, const unsigned curLayer){
 
+    if (DEBUG) *debugFile<<"--------------------------------------------"<<std::endl;
     if (DEBUG) *debugFile<<"Inside Sequential Norm\n";
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
 
@@ -156,6 +160,7 @@ inline void RootSeq::applySequentialNorm(const float norm[], const unsigned laye
         if (DEBUG) *debugFile<<" = (new value) "<<ringer_rings->at(layerInit + curLyrRing)<<std::endl;
 
     }
+    if (DEBUG) *debugFile<<"--------------------------------------------"<<std::endl;
 
 }
 
@@ -171,12 +176,14 @@ RootSeq::CODE RootSeq::normalise(){
 
     //Loop over all entries
     for(int entry = 0; entry < entries; ++entry){
+        if (DEBUG) *debugFile<<"-----------"<<std::endl;
         readingChain->GetEntry(entry);
         //Case ringerRings have multiple ROIs will loop on this for:
         for(unsigned numEvent=0; numEvent < (ringer_rings->size()/totalRings); ++numEvent){
             //Looping over all Layers
+            if (DEBUG) *debugFile<<"----------------------"<<std::endl;
             for(unsigned curLayer=0;  curLayer<sizeof(ringsDist)/sizeof(unsigned); ++curLayer){
-
+                if (DEBUG) *debugFile<<"---------------------------------"<<std::endl;
 
                 float norm[ringsDist[curLayer]];//norm have the same size of its layer
 
@@ -192,14 +199,19 @@ RootSeq::CODE RootSeq::normalise(){
                 applySequentialNorm(norm, layerInitialRing, curLayer);
 
                 if (DEBUG) *debugFile<<"Ended LAYER Number "<<curLayer+1<<std::endl;
+                if (DEBUG) *debugFile<<"---------------------------------"<<std::endl;
             }//Close Layer loop
             if (DEBUG) *debugFile<<"Ended Event Number "<< numEvent+1<<std::endl;
+            if (DEBUG) *debugFile<<"----------------------"<<std::endl;
         }//Close Events Loop
 
         if (DEBUG) *debugFile<<"Ended Entry Number "<< entry+1<<std::endl;
+        if (DEBUG) *debugFile<<"-----------"<<std::endl;
         if (DEBUG) *debugFile<<"Filling Tree with ringer_rings values of : "<<std::endl;
 
-        for(unsigned f=0; (DEBUG && f<ringer_rings->size() ); ++f) *debugFile<<f<<" "<<ringer_rings->at(f)<<std::endl;
+        for(unsigned f=0; (DEBUG && f<ringer_rings->size() ); ++f) {
+            *debugFile<<f<<" "<<ringer_rings->at(f)<<std::endl;
+        }
         fillingTree->Fill();
     }//Close Entry Loop
 
