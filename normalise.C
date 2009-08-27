@@ -24,9 +24,9 @@ int normalise(const char *inPut, const char *outPut){
 
     normalizedData->Write();
 //    normalizedData->GetCurrentFile()->Write();
-//    normalizedData->GetCurrentFile()->Close();
+    file->Close();
 
-//    delete file;
+    delete file;
     delete readingChain;
     delete normalizedData;
 
