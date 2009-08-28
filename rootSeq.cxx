@@ -158,7 +158,7 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
         for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
             if (!(norm[ curLyrRing - 1] - fabs(ringer_rings->at(layerInit + curLyrRing-1))<stopEnergy) && !fixed){
                 norm[curLyrRing] = norm[ curLyrRing - 1] - fabs(ringer_rings->at(layerInit + curLyrRing-1));
-                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and ("<<setw(12)<<norm[curLyrRing-1]<<" < "<<stopEnergy<<") = "<<(norm[curLyrRing-1]<stopEnergy)<<" norm["<<setw(2)<<setfill('0')<<curLyrRing<<"] = "<<setw(12)<<setfill(' ')<<internal<<norm[curLyrRing - 1]<<" - "<<setw(12)<<fabs(ringer_rings->at(layerInit + curLyrRing-1))<<" = "<<norm[curLyrRing]<<std::endl;
+                if (DEBUG) *debugFile<<"Fixed = "<<fixed<<" and ("<<setw(12)<<!(norm[ curLyrRing - 1] - fabs(ringer_rings->at(layerInit + curLyrRing-1))<stopEnergy)<<" < "<<stopEnergy<<") = "<<!(norm[ curLyrRing - 1] - fabs(ringer_rings->at(layerInit + curLyrRing-1))<stopEnergy)<stopEnergy)<<" norm["<<setw(2)<<setfill('0')<<curLyrRing<<"] = "<<setw(12)<<setfill(' ')<<internal<<norm[curLyrRing - 1]<<" - "<<setw(12)<<fabs(ringer_rings->at(layerInit + curLyrRing-1))<<" = "<<norm[curLyrRing]<<std::endl;
             }
             else {
                 norm[curLyrRing] = norm[ 0 ];
