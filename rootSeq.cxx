@@ -165,7 +165,7 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
                 if (DEBUG) *debugFile<<"Fixed set to true  and norm["<<setw(2)<<setfill('0')<<curLyrRing<<setfill(' ')<<"] received "<<norm[curLyrRing]<<std::endl;
                 fixed = true;
             }
-            else (DEBUG) *debugFile<<std::endl;
+            else if (DEBUG) *debugFile<<std::endl;
         }
 
     }
