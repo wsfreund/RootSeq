@@ -19,7 +19,7 @@ class RootSeq {
     static const unsigned  ringsDist[];
     static const float     stopEnergy = 100.;
     static const float     energyThreshold = 0.001;
-    static const int       DEBUG = 1;
+    static const int       DEBUG = 0;
 
 	std::vector<float>	*ringer_rings;
 	std::vector<float>	*ringer_lvl2_eta;
