@@ -136,7 +136,7 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
             norm[0]=layerMax;
         }
         else 
-            if (DEBUG) *debugFile<<"Norm[0] = "<< norm[0] << " < " <<" stopEnergy = "<<stopEnergy<<" MaxValue for this Layer "<<layerMax<<" that is lesser than norm[0]"<<std::endl;
+            if (DEBUG) *debugFile<<"Norm[0] = "<< norm[0] << " < " <<" stopEnergy = "<<stopEnergy<<"\n MaxValue for this Layer "<<layerMax<<" that is lesser than norm[0]"<<std::endl;
         
         if (DEBUG) *debugFile<<"Applying energyThreshold test\n";
 
@@ -145,7 +145,7 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
             norm[0]=energyThreshold;
         }
         else 
-            if (DEBUG) *debugFile<<"norm[0] > energyThreshold("<<energyThreshold<<") and is still the same\n";
+            if (DEBUG) *debugFile<<"norm[0] > energyThreshold("<<energyThreshold<<") norm[0] is still the same\n";
 
         //Setting all layer rings normalized by norm0:
         for(unsigned curLyrRing=1; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
@@ -184,7 +184,7 @@ inline void RootSeq::applySequentialNorm(const float norm[], const unsigned laye
             ringer_rings->at(layerInit + curLyrRing)/=norm[curLyrRing];
             if (DEBUG) *debugFile<<" = (new value) "<<ringer_rings->at(layerInit + curLyrRing)<<std::endl;
         }
-        else if (DEBUG) *debugFile << "Ring number "<<setw(2)<<curLyrRing+layerInit+1<< " new value = (old value)" <<setw(12)<<internal<< ringer_rings->at(layerInit + curLyrRing)<<"(norm=energyThreshold)"<<std::endl;
+        else if (DEBUG) *debugFile << "Ring number "<<setw(2)<<curLyrRing+layerInit+1<< " new value = (old value)" <<setw(12)<<internal<< ringer_rings->at(layerInit + curLyrRing)<<"(becouse norm=energyThreshold)"<<std::endl;
 
 
     }
