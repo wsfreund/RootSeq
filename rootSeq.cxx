@@ -6,7 +6,6 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
     readingChain = outsideReadingChain;
     fillingTree = outsidefillingTree;
 
-	ringer_rings	=	new std::vector<double>(200);
     ringer_rings_f  =   new std::vector<float>;
 	ringer_lvl2_eta	=	new std::vector<float>;
 	ringer_lvl2_phi	=	new std::vector<float>;
@@ -211,6 +210,9 @@ RootSeq::CODE RootSeq::normalise(){
         if (DEBUG) *debugFile<<"Initializing Entry Number "<< entry+1<<std::endl;
         readingChain->GetEntry(entry);
         //Copying ringer_rings_f to ringer_rings (double) to work with double data
+
+        unsigned ringer_size = ringer_rings_f->size();
+        ringer_rings = new vector<float>(ringer_size);
         std::copy( ringer_rings_f->begin(), ringer_rings_f->end(), ringer_rings->begin());
 
         if (DEBUG) *debugFile<<"Ringer_rings values are : "<<std::endl;
@@ -252,8 +254,10 @@ RootSeq::CODE RootSeq::normalise(){
         if (DEBUG) *debugFile<<"Filling Tree with ringer_rings values of : "<<std::endl;
 
         //Changing ringer_rings_f to sequential normalised data:
-        ringer_rings_f->clear();
+
         std::copy( ringer_rings->begin(), ringer_rings->end(), ringer_rings_f->begin());
+
+        delete ringer_rings;
 
         if (DEBUG) for(unsigned f=0; (DEBUG && f<ringer_rings->size() ); ++f)
             *debugFile<<f<<" "<<ringer_rings_f->at(f)<<std::endl;
@@ -262,7 +266,6 @@ RootSeq::CODE RootSeq::normalise(){
 
     }//Close Entry Loop
 
-    ringer_rings->clear();
 
     return RootSeq::OK;
 
