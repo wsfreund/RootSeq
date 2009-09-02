@@ -7,6 +7,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
     fillingTree = outsidefillingTree;
 
 	ringer_rings	=	new std::vector<double>;
+    ringer_rings_f  =   new std::vector<float>;
 	ringer_lvl2_eta	=	new std::vector<float>;
 	ringer_lvl2_phi	=	new std::vector<float>;
 	ringer_lvl2_et  =	new std::vector<float>;
@@ -247,15 +248,14 @@ RootSeq::CODE RootSeq::normalise(){
         if (DEBUG) *debugFile<<"-----------"<<std::endl;
         if (DEBUG) *debugFile<<"Filling Tree with ringer_rings values of : "<<std::endl;
 
-        ringer_rings_f = new std::vector<float>(ringer_rings->begin(), ringer_rings->end());
+        std::copy( ringer_rings->begin(), ringer_rings->end(), ringer_rings_f->begin());
 
         if (DEBUG) for(unsigned f=0; (DEBUG && f<ringer_rings->size() ); ++f)
             *debugFile<<f<<" "<<ringer_rings->at(f)<<std::endl;
 
         fillingTree->Fill();
 
-        delete ringer_rings_f;
-
+        ringer_rings_f->clear();
     }//Close Entry Loop
 
     return RootSeq::OK;

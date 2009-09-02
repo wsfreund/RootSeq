@@ -7,6 +7,7 @@
 #include<iostream>
 #include<fstream>
 #include<iomanip>
+#include <algorithm>
 
 
 #define ROOTSEQ
