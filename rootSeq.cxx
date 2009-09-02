@@ -151,8 +151,8 @@ inline void RootSeq::fillNormValues(double norm[], const unsigned layerInit, con
             if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<" : MaxValue for this Layer "<<layerMax<<" and now will be the norm[0]value"<<std::endl;
             norm[0]=layerMax;
             if (norm[0]<std::fabs(layerMin)){
-                norm[0]=std::fabs(layerMin);
                 if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<" : MaxValue<fabs(MinValue) for this Layer "<<layerMin<<" and now will be the norm[0] value"<<std::endl;
+                norm[0]=std::fabs(layerMin);
             }
         }
         else 
@@ -273,7 +273,7 @@ RootSeq::CODE RootSeq::normalise(){
         std::copy( ringer_rings->begin(), ringer_rings->end(), ringer_rings_f->begin());
         delete ringer_rings;
 
-        if (DEBUG) for(unsigned f=0; (DEBUG && f<ringer_rings->size() ); ++f)
+        if (DEBUG) for(unsigned f=0; (DEBUG && f<ringer_rings_j->size() ); ++f)
             *debugFile<<f<<" "<<ringer_rings_f->at(f)<<std::endl;
 
         fillingTree->Fill();
