@@ -254,7 +254,7 @@ RootSeq::CODE RootSeq::normalise(){
         std::copy( ringer_rings->begin(), ringer_rings->end(), ringer_rings_f->begin());
         delete ringer_rings;
 
-        if (DEBUG) for(unsigned f=0; (DEBUG && f<ringer_rings->size() ); ++f)
+        if (DEBUG) for(unsigned f=0; (DEBUG && f<ringer_rings-_f>size() ); ++f)
             *debugFile<<f<<" "<<ringer_rings_f->at(f)<<std::endl;
 
         fillingTree->Fill();
