@@ -211,8 +211,7 @@ RootSeq::CODE RootSeq::normalise(){
         readingChain->GetEntry(entry);
         //Copying ringer_rings_f to ringer_rings (double) to work with double data
 
-        unsigned ringer_size = ringer_rings_f->size();
-        ringer_rings = new vector<float>(ringer_size);
+        ringer_rings = new vector<double>(ringer_rings_f->size());
         std::copy( ringer_rings_f->begin(), ringer_rings_f->end(), ringer_rings->begin());
 
         if (DEBUG) *debugFile<<"Ringer_rings values are : "<<std::endl;
