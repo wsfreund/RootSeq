@@ -6,7 +6,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
     readingChain = outsideReadingChain;
     fillingTree = outsidefillingTree;
 
-	ringer_rings	=	new std::vector<double>(1);
+	ringer_rings	=	new std::vector<double>(200);
     ringer_rings_f  =   new std::vector<float>;
 	ringer_lvl2_eta	=	new std::vector<float>;
 	ringer_lvl2_phi	=	new std::vector<float>;
