@@ -17,25 +17,31 @@ class RootSeq {
 	enum CODE {ERROR=0, OK};
 
     static const unsigned  ringsDist[];
+<<<<<<< HEAD:rootSeq.h
     static const float     stopEnergy = 100.;
     static const float     energyThreshold = 0.001;
     static const int       DEBUG = 1;
+=======
+    static const double     stopEnergy = 100.;
+    static const double     energyThreshold = 0.001;
+    static const int       DEBUG = 0;
+>>>>>>> 0d3cf3a8e71ca422ddcab377f37df52c31dd6e85:rootSeq.h
 
-	std::vector<float>	*ringer_rings;
-	std::vector<float>	*ringer_lvl2_eta;
-	std::vector<float>	*ringer_lvl2_phi;
-	std::vector<float>	*ringer_lvl2_et;
+	std::vector<double>	*ringer_rings;
+	std::vector<double>	*ringer_lvl2_eta;
+	std::vector<double>	*ringer_lvl2_phi;
+	std::vector<double>	*ringer_lvl2_et;
 
 
-	std::vector<float>	*t2ca_lvl2_eta;
-	std::vector<float>	*t2ca_lvl2_phi;
-	std::vector<float>	*t2ca_rcore;
-	std::vector<float>	*t2ca_eratio;
-	std::vector<float>	*t2ca_emes1;
-	std::vector<float>	*t2ca_eme;
-    std::vector<float>  *t2ca_ehades0;
+	std::vector<double>	*t2ca_lvl2_eta;
+	std::vector<double>	*t2ca_lvl2_phi;
+	std::vector<double>	*t2ca_rcore;
+	std::vector<double>	*t2ca_eratio;
+	std::vector<double>	*t2ca_emes1;
+	std::vector<double>	*t2ca_eme;
+    std::vector<double>  *t2ca_ehades0;
 
-	std::vector<float>	*t2cahade;
+	std::vector<double>	*t2cahade;
 
 	UInt_t          	*ringer_nclusters;
     UInt_t          	*t2canclus;
@@ -46,10 +52,10 @@ class RootSeq {
     ofstream *debugFile;
 
     unsigned    getLayerInit(const unsigned numEvent, const unsigned curLayer);
-    float       max_abs(const unsigned layerInit, const unsigned curLayer);
-    float       calcNorm0(const unsigned layerInit, const unsigned curLayer);
-    void        fillNormValues(float norm[], const unsigned layerInit, const unsigned curLayer);
-    void        applySequentialNorm(const float norm[], const unsigned layerInit, const unsigned curLayer);
+    double       max_abs(const unsigned layerInit, const unsigned curLayer);
+    double       calcNorm0(const unsigned layerInit, const unsigned curLayer);
+    void        fillNormValues(double norm[], const unsigned layerInit, const unsigned curLayer);
+    void        applySequentialNorm(const double norm[], const unsigned layerInit, const unsigned curLayer);
 
     public:
 
