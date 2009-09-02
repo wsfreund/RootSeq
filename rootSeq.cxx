@@ -114,7 +114,7 @@ inline double RootSeq::calcNorm0(const unsigned layerInit, const unsigned curLay
 
 inline double RootSeq::max(const unsigned layerInit, const unsigned curLayer){
 
-    double maxValue = 0.;
+    double maxValue = -99999.;
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
         double curRingAbs = ringer_rings->at(layerInit+curLyrRing);
         if (maxValue<curRingAbs)
@@ -127,7 +127,7 @@ inline double RootSeq::max(const unsigned layerInit, const unsigned curLayer){
 
 inline double RootSeq::min(const unsigned layerInit, const unsigned curLayer){
 
-    double minValue = 0.;
+    double minValue = 99999.;
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
         double curRingAbs = ringer_rings->at(layerInit+curLyrRing);
         if (minValue>curRingAbs)
