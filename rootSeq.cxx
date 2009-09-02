@@ -205,14 +205,13 @@ RootSeq::CODE RootSeq::normalise(){
     if (DEBUG) *debugFile<<"Total rings for each ROI is "<<totalRings<<std::endl;
 	int entries	= static_cast<int>(readingChain->GetEntries());
 
-    //Copying ringer_rings_f to ringer_rings (double) to work with double data
-    std::copy( ringer_rings_f->begin(), ringer_rings_f->end(), ringer_rings->begin());
-
     //Loop over all entries
     for(int entry = 0; entry < entries; ++entry){
         if (DEBUG) *debugFile<<"-----------"<<std::endl;
         if (DEBUG) *debugFile<<"Initializing Entry Number "<< entry+1<<std::endl;
         readingChain->GetEntry(entry);
+        //Copying ringer_rings_f to ringer_rings (double) to work with double data
+        std::copy( ringer_rings_f->begin(), ringer_rings_f->end(), ringer_rings->begin());
 
         if (DEBUG) *debugFile<<"Ringer_rings values are : "<<std::endl;
 
