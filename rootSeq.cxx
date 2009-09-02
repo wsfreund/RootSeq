@@ -270,7 +270,6 @@ RootSeq::~RootSeq(){
     }
 
 	delete ringer_rings;
-    delete ringer_rings_f;
 	delete ringer_lvl2_eta;	
 	delete ringer_lvl2_phi;	
 	delete ringer_lvl2_et;  
