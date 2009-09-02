@@ -112,15 +112,29 @@ inline double RootSeq::calcNorm0(const unsigned layerInit, const unsigned curLay
 }
 
 
-inline double RootSeq::max_abs(const unsigned layerInit, const unsigned curLayer){
+inline double RootSeq::max(const unsigned layerInit, const unsigned curLayer){
 
     double maxValue = 0.;
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
-        double curRingAbs = fabs(ringer_rings->at(layerInit+curLyrRing));
-        if (maxValue<curRingAbs) 
+        double curRingAbs = ringer_rings->at(layerInit+curLyrRing);
+        if (maxValue<curRingAbs)
             maxValue=curRingAbs;
     }
+
     return maxValue;
+
+}
+
+inline double RootSeq::min(const unsigned layerInit, const unsigned curLayer){
+
+    double minValue = 0.;
+    for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
+        double curRingAbs = ringer_rings->at(layerInit+curLyrRing);
+        if (minValue>curRingAbs)
+            minValue=curRingAbs;
+    }
+
+    return minValue;
 
 }
 
@@ -130,11 +144,16 @@ inline void RootSeq::fillNormValues(double norm[], const unsigned layerInit, con
     if (DEBUG) *debugFile<<"Inside FillNormValues.\n";
     if (norm[0]<stopEnergy){
 
-        double layerMax = max_abs(layerInit, curLayer);
+        double layerMax = max(layerInit, curLayer);
+        double layerMin = min(layerInit, curLayer);
 
         if (norm[0]<layerMax){
             if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<" : MaxValue for this Layer "<<layerMax<<" and now will be the norm[0]value"<<std::endl;
             norm[0]=layerMax;
+            if (norm[0]<std::fabs(layerMin)){
+                norm[0]=std::fabs(layerMin);
+                if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<" : MaxValue<fabs(MinValue) for this Layer "<<layerMin<<" and now will be the norm[0] value"<<std::endl;
+            }
         }
         else 
             if (DEBUG) *debugFile<<"Norm[0] = "<< norm[0] << " < " <<" stopEnergy = "<<stopEnergy<<"\n MaxValue for this Layer "<<layerMax<<" that is lesser than norm[0]"<<std::endl;
