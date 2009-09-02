@@ -6,21 +6,21 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
     readingChain = outsideReadingChain;
     fillingTree = outsidefillingTree;
 
-	ringer_rings	=	new std::vector<float>;
-	ringer_lvl2_eta	=	new std::vector<float>;
-	ringer_lvl2_phi	=	new std::vector<float>;
-	ringer_lvl2_et  =	new std::vector<float>;
+	ringer_rings	=	new std::vector<double>;
+	ringer_lvl2_eta	=	new std::vector<double>;
+	ringer_lvl2_phi	=	new std::vector<double>;
+	ringer_lvl2_et  =	new std::vector<double>;
 
 
 
-	t2ca_lvl2_eta	=	new std::vector<float>;
-	t2ca_lvl2_phi   =	new std::vector<float>;
-	t2ca_rcore		=	new std::vector<float>;
-    t2ca_eratio		=	new std::vector<float>;
-    t2ca_emes1		=	new std::vector<float>;
-    t2ca_eme		=	new std::vector<float>;
-    t2ca_ehades0	=	new std::vector<float>;
-    t2cahade        =   new std::vector<float>;
+	t2ca_lvl2_eta	=	new std::vector<double>;
+	t2ca_lvl2_phi   =	new std::vector<double>;
+	t2ca_rcore		=	new std::vector<double>;
+    t2ca_eratio		=	new std::vector<double>;
+    t2ca_emes1		=	new std::vector<double>;
+    t2ca_eme		=	new std::vector<double>;
+    t2ca_ehades0	=	new std::vector<double>;
+    t2cahade        =   new std::vector<double>;
 
 
 
@@ -96,9 +96,9 @@ inline unsigned RootSeq::getLayerInit(const unsigned numEvent, const unsigned cu
 
 }
 
-inline float RootSeq::calcNorm0(const unsigned layerInit, const unsigned curLayer){
+inline double RootSeq::calcNorm0(const unsigned layerInit, const unsigned curLayer){
 
-    float vNorm = 0.;
+    double vNorm = 0.;
     if (DEBUG) *debugFile<<"Calculating Norm0, Current Energy rings for this Layer:\n";
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
         if (DEBUG) *debugFile<<setw(12)<<internal<<ringer_rings->at(layerInit+curLyrRing)<<"    ";
@@ -112,11 +112,11 @@ inline float RootSeq::calcNorm0(const unsigned layerInit, const unsigned curLaye
 }
 
 
-inline float RootSeq::max_abs(const unsigned layerInit, const unsigned curLayer){
+inline double RootSeq::max_abs(const unsigned layerInit, const unsigned curLayer){
 
-    float maxValue = 0.;
+    double maxValue = 0.;
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
-        float curRingAbs = fabs(ringer_rings->at(layerInit+curLyrRing));
+        double curRingAbs = fabs(ringer_rings->at(layerInit+curLyrRing));
         if (maxValue<curRingAbs) 
             maxValue=curRingAbs;
     }
@@ -124,13 +124,13 @@ inline float RootSeq::max_abs(const unsigned layerInit, const unsigned curLayer)
 
 }
 
-inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, const unsigned curLayer){
+inline void RootSeq::fillNormValues(double norm[], const unsigned layerInit, const unsigned curLayer){
 
     if (DEBUG) *debugFile<<"--------------------------------------------"<<std::endl;
     if (DEBUG) *debugFile<<"Inside FillNormValues.\n";
     if (norm[0]<stopEnergy){
 
-        float layerMax = max_abs(layerInit, curLayer);
+        double layerMax = max_abs(layerInit, curLayer);
 
         if (norm[0]<layerMax){
             if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<" : MaxValue for this Layer "<<layerMax<<" and now will be the norm[0]value"<<std::endl;
@@ -173,7 +173,7 @@ inline void RootSeq::fillNormValues(float norm[], const unsigned layerInit, cons
     if (DEBUG) *debugFile<<"--------------------------------------------"<<std::endl;
 }
 
-inline void RootSeq::applySequentialNorm(const float norm[], const unsigned layerInit, const unsigned curLayer){
+inline void RootSeq::applySequentialNorm(const double norm[], const unsigned layerInit, const unsigned curLayer){
 
     if (DEBUG) *debugFile<<"--------------------------------------------"<<std::endl;
     if (DEBUG) *debugFile<<"Inside Sequential Norm\n";
@@ -223,7 +223,7 @@ RootSeq::CODE RootSeq::normalise(){
                 if (DEBUG) *debugFile<<"---------------------------------"<<std::endl;
                 if (DEBUG) *debugFile<<"Initializing LAYER Number "<<curLayer+1<<std::endl;
 
-                float norm[ringsDist[curLayer]];//norm have the same size of its layer
+                double norm[ringsDist[curLayer]];//norm have the same size of its layer
 
                 unsigned layerInitialRing = getLayerInit(numEvent, curLayer);
 
