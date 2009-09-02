@@ -254,7 +254,7 @@ RootSeq::CODE RootSeq::normalise(){
 
         fillingTree->Fill();
 
-        delete ringer_rings;
+        delete ringer_rings_f;
 
     }//Close Entry Loop
 
