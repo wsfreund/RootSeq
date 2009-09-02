@@ -7,20 +7,20 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
     fillingTree = outsidefillingTree;
 
 	ringer_rings	=	new std::vector<double>;
-	ringer_lvl2_eta	=	new std::vector<double>;
-	ringer_lvl2_phi	=	new std::vector<double>;
-	ringer_lvl2_et  =	new std::vector<double>;
+	ringer_lvl2_eta	=	new std::vector<float>;
+	ringer_lvl2_phi	=	new std::vector<float>;
+	ringer_lvl2_et  =	new std::vector<float>;
 
 
 
-	t2ca_lvl2_eta	=	new std::vector<double>;
-	t2ca_lvl2_phi   =	new std::vector<double>;
-	t2ca_rcore		=	new std::vector<double>;
-    t2ca_eratio		=	new std::vector<double>;
-    t2ca_emes1		=	new std::vector<double>;
-    t2ca_eme		=	new std::vector<double>;
-    t2ca_ehades0	=	new std::vector<double>;
-    t2cahade        =   new std::vector<double>;
+	t2ca_lvl2_eta	=	new std::vector<float>;
+	t2ca_lvl2_phi   =	new std::vector<float>;
+	t2ca_rcore		=	new std::vector<float>;
+    t2ca_eratio		=	new std::vector<float>;
+    t2ca_emes1		=	new std::vector<float>;
+    t2ca_eme		=	new std::vector<float>;
+    t2ca_ehades0	=	new std::vector<float>;
+    t2cahade        =   new std::vector<float>;
 
 
 
@@ -69,7 +69,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
 	readingChain->SetBranchAddress("T2CaHadE", 	    &t2cahade);
 
 //NeuralRinger
-    fillingTree->Branch("Ringer_Rings",      &ringer_rings);
+    fillingTree->Branch("Ringer_Rings",      &ringer_rings_f);
     fillingTree->Branch("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
     fillingTree->Branch("Ringer_LVL2_Phi",   &ringer_lvl2_phi);       
     fillingTree->Branch("Ringer_LVL2_Et",	 &ringer_lvl2_et);
@@ -247,10 +247,15 @@ RootSeq::CODE RootSeq::normalise(){
         if (DEBUG) *debugFile<<"-----------"<<std::endl;
         if (DEBUG) *debugFile<<"Filling Tree with ringer_rings values of : "<<std::endl;
 
+        ringer_rings_f = new std::vector<float>(ringer_rings->begin(), ringer_rings->end());
+
         if (DEBUG) for(unsigned f=0; (DEBUG && f<ringer_rings->size() ); ++f)
             *debugFile<<f<<" "<<ringer_rings->at(f)<<std::endl;
 
         fillingTree->Fill();
+
+        delete ringer_rings;
+
     }//Close Entry Loop
 
     return RootSeq::OK;
@@ -265,6 +270,7 @@ RootSeq::~RootSeq(){
     }
 
 	delete ringer_rings;
+    delete ringer_rings_f;
 	delete ringer_lvl2_eta;	
 	delete ringer_lvl2_phi;	
 	delete ringer_lvl2_et;  
