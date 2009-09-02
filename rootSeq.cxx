@@ -6,8 +6,8 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
     readingChain = outsideReadingChain;
     fillingTree = outsidefillingTree;
 
-	ringer_rings	=	new std::vector<double>;
-    ringer_rings_f  =   new std::vector<float>(100);
+	ringer_rings	=	new std::vector<double>(1);
+    ringer_rings_f  =   new std::vector<float>;
 	ringer_lvl2_eta	=	new std::vector<float>;
 	ringer_lvl2_phi	=	new std::vector<float>;
 	ringer_lvl2_et  =	new std::vector<float>;
@@ -52,7 +52,7 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
 
 
 //NeuralRinger Variables
-    readingChain->SetBranchAddress("Ringer_Rings",      &ringer_rings);
+    readingChain->SetBranchAddress("Ringer_Rings",      &ringer_rings_f);
     readingChain->SetBranchAddress("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
     readingChain->SetBranchAddress("Ringer_LVL2_Phi",   &ringer_lvl2_phi);       
     readingChain->SetBranchAddress("Ringer_LVL2_Et",	&ringer_lvl2_et);
@@ -198,11 +198,15 @@ inline void RootSeq::applySequentialNorm(const double norm[], const unsigned lay
 RootSeq::CODE RootSeq::normalise(){
 
     if (DEBUG) *debugFile<<"||||||| Debug init |||||||\n";
+
     //Total rings size
     unsigned totalRings = 0;
     for(unsigned i =0; i<sizeof(ringsDist)/sizeof(unsigned); ++i) totalRings+=ringsDist[i];
     if (DEBUG) *debugFile<<"Total rings for each ROI is "<<totalRings<<std::endl;
 	int entries	= static_cast<int>(readingChain->GetEntries());
+
+    //Copying ringer_rings_f to ringer_rings (double) to work with double data
+    std::copy( ringer_rings_f->begin(), ringer_rings_f->end(), ringer_rings->begin());
 
     //Loop over all entries
     for(int entry = 0; entry < entries; ++entry){
@@ -248,15 +252,18 @@ RootSeq::CODE RootSeq::normalise(){
         if (DEBUG) *debugFile<<"-----------"<<std::endl;
         if (DEBUG) *debugFile<<"Filling Tree with ringer_rings values of : "<<std::endl;
 
+        //Changing ringer_rings_f to sequential normalised data:
+        ringer_rings_f->clear();
         std::copy( ringer_rings->begin(), ringer_rings->end(), ringer_rings_f->begin());
 
         if (DEBUG) for(unsigned f=0; (DEBUG && f<ringer_rings->size() ); ++f)
-            *debugFile<<f<<" "<<ringer_rings->at(f)<<std::endl;
+            *debugFile<<f<<" "<<ringer_rings_f->at(f)<<std::endl;
 
         fillingTree->Fill();
 
-        ringer_rings_f->clear();
     }//Close Entry Loop
+
+    ringer_rings->clear();
 
     return RootSeq::OK;
 
@@ -270,6 +277,7 @@ RootSeq::~RootSeq(){
     }
 
 	delete ringer_rings;
+    delete ringer_rings_f;
 	delete ringer_lvl2_eta;	
 	delete ringer_lvl2_phi;	
 	delete ringer_lvl2_et;  
