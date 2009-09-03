@@ -146,17 +146,19 @@ inline void RootSeq::fillNormValues(double norm[], const unsigned layerInit, con
 
         double layerMax = max(layerInit, curLayer);
         double layerMin = min(layerInit, curLayer);
-
+        if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<std::endl;
+        if (DEBUG) *debugFile<<" Max = "<<layerMax<<" Min = "<<layerMin<<std::endl;
         if (norm[0]<layerMax){
-            if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<" : MaxValue for this Layer "<<layerMax<<" and now will be the norm[0]value"<<std::endl;
+            if (DEBUG) *debugFile<<"setting Norm[0] = "<<layerMax<<std::endl;
             norm[0]=layerMax;
             if (norm[0]<std::fabs(layerMin)){
-                if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<" : MaxValue<fabs(MinValue) for this Layer "<<layerMin<<" and now will be the norm[0] value"<<std::endl;
+                if (DEBUG) *debugFile<<"Setting Norm[0] = "<<layerMin<<std::endl;
                 norm[0]=std::fabs(layerMin);
             }
+            else if (DEBUG) *debugFile<<"layerMin<layerMax";
         }
         else 
-            if (DEBUG) *debugFile<<"Norm[0] = "<< norm[0] << " < " <<" stopEnergy = "<<stopEnergy<<"\n MaxValue for this Layer "<<layerMax<<" that is lesser than norm[0]"<<std::endl;
+            if (DEBUG) *debugFile<<"Norm[0]>layerMax"<<std::endl;
         
         if (DEBUG) *debugFile<<"Applying energyThreshold test\n";
 
