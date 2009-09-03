@@ -228,7 +228,7 @@ RootSeq::CODE RootSeq::normalise(){
 
     //Loop over all entries
     for(int entry = 0; entry < entries; ++entry){
-        if (entry>109570 && entry<120000) DEBUG = 1;
+        if (entry>109570) DEBUG = 1;
         else DEBUG = 0;
         
         if (DEBUG) *debugFile<<"-----------"<<std::endl;
