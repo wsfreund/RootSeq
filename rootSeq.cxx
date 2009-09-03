@@ -2,6 +2,7 @@
 
 RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree) 
     : debugFile(NULL) {
+    DEBUG = 1;
 
     readingChain = outsideReadingChain;
     fillingTree = outsidefillingTree;
@@ -152,10 +153,10 @@ inline void RootSeq::fillNormValues(double norm[], const unsigned layerInit, con
             if (DEBUG) *debugFile<<"setting Norm[0] = "<<layerMax<<std::endl;
             norm[0]=layerMax;
             if (norm[0]<std::fabs(layerMin)){
-                if (DEBUG) *debugFile<<"Setting Norm[0] = "<<layerMin<<std::endl;
+                if (DEBUG) *debugFile<<"Setting Norm[0] = "<<std::fabs(layerMin)<<std::endl;
                 norm[0]=std::fabs(layerMin);
             }
-            else if (DEBUG) *debugFile<<"layerMin<layerMax";
+            else if (DEBUG) *debugFile<<"layerMin<layerMax"<<std::endl;
         }
         else 
             if (DEBUG) *debugFile<<"Norm[0]>layerMax"<<std::endl;
@@ -227,6 +228,9 @@ RootSeq::CODE RootSeq::normalise(){
 
     //Loop over all entries
     for(int entry = 0; entry < entries; ++entry){
+        if (entry>109570 && entry<120000) DEBUG = 1;
+        else DEBUG = 0;
+        
         if (DEBUG) *debugFile<<"-----------"<<std::endl;
         if (DEBUG) *debugFile<<"Initializing Entry Number "<< entry+1<<std::endl;
         readingChain->GetEntry(entry);
