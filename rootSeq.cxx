@@ -150,11 +150,11 @@ inline void RootSeq::fillNormValues(double norm[], const unsigned layerInit, con
         if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<std::endl;
         if (DEBUG) *debugFile<<" Max = "<<layerMax<<" Min = "<<layerMin<<std::endl;
 
-        if (DEBUG) *debugFile->precision(20);
+        if (DEBUG) debugFile->precision(20);
 
         if (DEBUG) *debugFile<<" abs(Max - Norm[0]) = "<<setw(22)<<std::fabs(layerMax - norm[0])<<std::endl;
         if (DEBUG) *debugFile<<" abs(Min + Norm[0]) = "<<setw(22)<<std::fabs(layerMin + norm[0])<<std::endl;
-        if (DEBUG) *debugFile->precision(6);
+        if (DEBUG) debugFile->precision(6);
         if (norm[0]<=layerMax){
             if (DEBUG) *debugFile<<"setting Norm[0] = "<<layerMax<<std::endl;
             norm[0]=layerMax;
