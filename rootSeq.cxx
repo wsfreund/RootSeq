@@ -149,6 +149,8 @@ inline void RootSeq::fillNormValues(double norm[], const unsigned layerInit, con
         double layerMin = min(layerInit, curLayer);
         if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<std::endl;
         if (DEBUG) *debugFile<<" Max = "<<layerMax<<" Min = "<<layerMin<<std::endl;
+        if (DEBUG) *debugFile<<" abs(Max - Norm[0]) = "<<std::fabs(layerMax - Norm[0])<<std::endl;
+        if (DEBUG) *debugFile<<" abs(Min + Norm[0]) = "<<std::fabs(layerMin + Norm[0])<<std::endl;
         if (norm[0]<layerMax){
             if (DEBUG) *debugFile<<"setting Norm[0] = "<<layerMax<<std::endl;
             norm[0]=layerMax;
@@ -228,7 +230,7 @@ RootSeq::CODE RootSeq::normalise(){
 
     //Loop over all entries
     for(int entry = 0; entry < entries; ++entry){
-        if (entry>109570 && entry<400000) DEBUG = 1;
+        if (entry==336208) DEBUG = 1;
         else DEBUG = 0;
         
         if (DEBUG) *debugFile<<"-----------"<<std::endl;
