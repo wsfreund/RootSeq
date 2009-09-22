@@ -2,7 +2,6 @@
 
 RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree) 
     : debugFile(NULL) {
-    DEBUG = 1;
 
     readingChain = outsideReadingChain;
     fillingTree = outsidefillingTree;
@@ -234,8 +233,6 @@ RootSeq::CODE RootSeq::normalise(){
 
     //Loop over all entries
     for(int entry = 0; entry < entries; ++entry){
-        if (entry==336207) DEBUG = 1;
-        else DEBUG = 0;
         
         if (DEBUG) *debugFile<<"-----------"<<std::endl;
         if (DEBUG) *debugFile<<"Initializing Entry Number "<< entry+1<<std::endl;
