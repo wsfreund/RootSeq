@@ -27,6 +27,8 @@ class RootSeq {
 	std::vector<float>	*ringer_lvl2_eta;
 	std::vector<float>	*ringer_lvl2_phi;
 	std::vector<float>	*ringer_lvl2_et;
+    std::vector<float>  *ringer_lvl1_id;
+    std::vector<float>  *ringer_roi_id;
 
 
 	std::vector<float>	*t2ca_lvl2_eta;

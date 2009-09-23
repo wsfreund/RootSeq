@@ -10,7 +10,8 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
 	ringer_lvl2_eta	=	new std::vector<float>;
 	ringer_lvl2_phi	=	new std::vector<float>;
 	ringer_lvl2_et  =	new std::vector<float>;
-
+	ringer_lvl1_id	=	new std::vector<float>;
+	ringer_roi_id   =	new std::vector<float>;
 
 
 	t2ca_lvl2_eta	=	new std::vector<float>;
@@ -36,6 +37,8 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
 	readingChain->SetBranchStatus("Ringer_LVL2_Phi",    true);
 	readingChain->SetBranchStatus("Ringer_LVL2_Et",		true);
 	readingChain->SetBranchStatus("Ringer_NClusters",	true);
+	readingChain->SetBranchStatus("Ringer_LVL1_Id",		true);
+	readingChain->SetBranchStatus("Ringer_Roi_Id",		true);
 
 //T2Calo Variables
 	readingChain->SetBranchStatus("T2CaEta", 		true);
@@ -56,6 +59,8 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
     readingChain->SetBranchAddress("Ringer_LVL2_Phi",   &ringer_lvl2_phi);       
     readingChain->SetBranchAddress("Ringer_LVL2_Et",	&ringer_lvl2_et);
     readingChain->SetBranchAddress("Ringer_NClusters",	&ringer_nclusters);
+	readingChain->SetBranchAddress("Ringer_LVL1_Id",	&ringer_lvl1_id);
+	readingChain->SetBranchAddress("Ringer_Roi_Id",		&ringer_roi_id);
 
 //T2Calo Variables
 	readingChain->SetBranchAddress("T2CaEta", 		&t2ca_lvl2_eta);
@@ -73,6 +78,8 @@ RootSeq::RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree)
     fillingTree->Branch("Ringer_LVL2_Eta",   &ringer_lvl2_eta);       
     fillingTree->Branch("Ringer_LVL2_Phi",   &ringer_lvl2_phi);       
     fillingTree->Branch("Ringer_LVL2_Et",	 &ringer_lvl2_et);
+    fillingTree->Branch("Ringer_LVL1_Id",    &ringer_lvl1_id);
+    fillingTree->Branch("Ringer_Roi_Id",     &ringer_roi_id);
     fillingTree->Branch("Ringer_NClusters",	 &ringer_nclusters, "ringer_nclusters/i");
 
 //T2Calo
