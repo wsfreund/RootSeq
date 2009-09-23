@@ -20,7 +20,7 @@ class RootSeq {
     static const unsigned  ringsDist[];
     static const double    stopEnergy = 100.;
     static const double    energyThreshold = 0.001;
-    static const           DEBUG = 0;
+    static const int       DEBUG = 0;
 
 	std::vector<double>	*ringer_rings;
 	std::vector<float>	*ringer_rings_f;
