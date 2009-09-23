@@ -20,7 +20,7 @@ class RootSeq {
     static const unsigned  ringsDist[];
     static const double    stopEnergy = 100.;
     static const double    energyThreshold = 0.001;
-    static const int       DEBUG = 0;
+    static const           DEBUG = 0;
 
 	std::vector<double>	*ringer_rings;
 	std::vector<float>	*ringer_rings_f;
@@ -48,8 +48,9 @@ class RootSeq {
     ofstream *debugFile;
 
     unsigned    getLayerInit(const unsigned numEvent, const unsigned curLayer);
-    double       max_abs(const unsigned layerInit, const unsigned curLayer);
-    double       calcNorm0(const unsigned layerInit, const unsigned curLayer);
+    double      max(const unsigned layerInit, const unsigned curLayer);
+    double      min(const unsigned layerInit, const unsigned curLayer);
+    double      calcNorm0(const unsigned layerInit, const unsigned curLayer);
     void        fillNormValues(double norm[], const unsigned layerInit, const unsigned curLayer);
     void        applySequentialNorm(const double norm[], const unsigned layerInit, const unsigned curLayer);
 

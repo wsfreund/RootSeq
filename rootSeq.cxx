@@ -112,15 +112,29 @@ inline double RootSeq::calcNorm0(const unsigned layerInit, const unsigned curLay
 }
 
 
-inline double RootSeq::max_abs(const unsigned layerInit, const unsigned curLayer){
+inline double RootSeq::max(const unsigned layerInit, const unsigned curLayer){
 
-    double maxValue = 0.;
+    double maxValue = -99999.;
     for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
-        double curRingAbs = fabs(ringer_rings->at(layerInit+curLyrRing));
-        if (maxValue<curRingAbs) 
+        double curRingAbs = ringer_rings->at(layerInit+curLyrRing);
+        if (maxValue<curRingAbs)
             maxValue=curRingAbs;
     }
+
     return maxValue;
+
+}
+
+inline double RootSeq::min(const unsigned layerInit, const unsigned curLayer){
+
+    double minValue = 99999.;
+    for(unsigned curLyrRing=0; curLyrRing<ringsDist[curLayer]; ++curLyrRing){
+        double curRingAbs = ringer_rings->at(layerInit+curLyrRing);
+        if (minValue>curRingAbs)
+            minValue=curRingAbs;
+    }
+
+    return minValue;
 
 }
 
@@ -130,14 +144,27 @@ inline void RootSeq::fillNormValues(double norm[], const unsigned layerInit, con
     if (DEBUG) *debugFile<<"Inside FillNormValues.\n";
     if (norm[0]<stopEnergy){
 
-        double layerMax = max_abs(layerInit, curLayer);
+        double layerMax = max(layerInit, curLayer);
+        double layerMin = min(layerInit, curLayer);
+        if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<std::endl;
+        if (DEBUG) *debugFile<<" Max = "<<layerMax<<" Min = "<<layerMin<<std::endl;
 
-        if (norm[0]<layerMax){
-            if (DEBUG) *debugFile<<"Norm[0] = "<<norm[0]<<" < "<<" stopEnergy = "<<stopEnergy<<" : MaxValue for this Layer "<<layerMax<<" and now will be the norm[0]value"<<std::endl;
+        if (DEBUG) debugFile->precision(20);
+
+        if (DEBUG) *debugFile<<" abs(Max - Norm[0]) = "<<setw(22)<<std::fabs(layerMax - norm[0])<<std::endl;
+        if (DEBUG) *debugFile<<" abs(Min + Norm[0]) = "<<setw(22)<<std::fabs(layerMin + norm[0])<<std::endl;
+        if (DEBUG) debugFile->precision(6);
+        if (norm[0]<=layerMax){
+            if (DEBUG) *debugFile<<"setting Norm[0] = "<<layerMax<<std::endl;
             norm[0]=layerMax;
+            if (norm[0]<std::fabs(layerMin)){
+                if (DEBUG) *debugFile<<"Setting Norm[0] = "<<std::fabs(layerMin)<<std::endl;
+                norm[0]=std::fabs(layerMin);
+            }
+            else if (DEBUG) *debugFile<<"layerMin<layerMax"<<std::endl;
         }
         else 
-            if (DEBUG) *debugFile<<"Norm[0] = "<< norm[0] << " < " <<" stopEnergy = "<<stopEnergy<<"\n MaxValue for this Layer "<<layerMax<<" that is lesser than norm[0]"<<std::endl;
+            if (DEBUG) *debugFile<<"Norm[0]>layerMax"<<std::endl;
         
         if (DEBUG) *debugFile<<"Applying energyThreshold test\n";
 
@@ -206,6 +233,7 @@ RootSeq::CODE RootSeq::normalise(){
 
     //Loop over all entries
     for(int entry = 0; entry < entries; ++entry){
+        
         if (DEBUG) *debugFile<<"-----------"<<std::endl;
         if (DEBUG) *debugFile<<"Initializing Entry Number "<< entry+1<<std::endl;
         readingChain->GetEntry(entry);
@@ -254,7 +282,8 @@ RootSeq::CODE RootSeq::normalise(){
         std::copy( ringer_rings->begin(), ringer_rings->end(), ringer_rings_f->begin());
         delete ringer_rings;
 
-        if (DEBUG) for(unsigned f=0; (DEBUG && f<ringer_rings-_f>size() ); ++f)
+
+        if (DEBUG) for(unsigned f=0; (DEBUG && f<ringer_rings_f->size() ); ++f)
             *debugFile<<f<<" "<<ringer_rings_f->at(f)<<std::endl;
 
         fillingTree->Fill();
