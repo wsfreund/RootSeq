@@ -64,6 +64,7 @@ int normalise(const char *inPut, const char *outPut, const char *normMethod = "s
         return 0;
 
     }
+    else return 1;
 
 }
 

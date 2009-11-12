@@ -1,4 +1,4 @@
-#ifndef ROOTSEQ
+#ifndef ROOTNORM1
 
 #include<TChain.h>
 #include<TTree.h>
@@ -10,7 +10,7 @@
 #include <algorithm>
 
 
-#define ROOTSEQ
+#define ROOTNORM1
 
 
 class RootNorm1 {
@@ -48,8 +48,8 @@ class RootNorm1 {
 
     public:
 
-    RootSeq(TChain *outsideReadingChain, TTree *outsidefillingTree);
-    ~RootSeq();
+    RootNorm1(TChain *outsideReadingChain, TTree *outsidefillingTree);
+    ~RootNorm1();
 
     CODE normalise();
 
