@@ -97,7 +97,9 @@ RootNorm1::RootNorm1(TChain *outsideReadingChain, TTree *outsidefillingTree)
 RootNorm1::CODE RootNorm1::normalise(){
 
     //Loop over all entries
+    std::cout<<"Applying Norm1 normalization"<<std::endl;
 	int entries	= static_cast<int>(readingChain->GetEntries());
+
     for(int entry = 0; entry < entries; ++entry){
         
         readingChain->GetEntry(entry);
@@ -107,10 +109,10 @@ RootNorm1::CODE RootNorm1::normalise(){
 
             float norm1=0;
             for(unsigned numRing=numEvent*ringer_rings_f->size()/ringer_lvl2_eta->size(); numRing < ringer_rings_f->size()*(numEvent+1)/ringer_lvl2_eta->size(); ++numRing)
-                norm1+=ringer_rings_f->at(numEvent);
+                norm1+=ringer_rings_f->at(numRing);
             norm1=1/norm1;
             for(unsigned numRing=numEvent*ringer_rings_f->size()/ringer_lvl2_eta->size(); numRing < ringer_rings_f->size()*(numEvent+1)/ringer_lvl2_eta->size(); ++numRing)
-                ringer_rings_f->at(numEvent)*=norm1;
+                ringer_rings_f->at(numRing)*=norm1;
 
         }//Close Events Loop
 
