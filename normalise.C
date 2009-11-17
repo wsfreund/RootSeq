@@ -7,7 +7,7 @@
 
 int normalise(const char *inPut, const char *outPut, const char *normMethod = "sequential"){
 
-    if (strcmp(normMethod,"sequential")){
+    if (!strcmp(normMethod,"sequential")){
  
 	    TFile 		*file;
 	    TChain		*readingChain;
@@ -35,7 +35,7 @@ int normalise(const char *inPut, const char *outPut, const char *normMethod = "s
 
         return 0;
 
-    } else if (strcmp(normMethod,"norm1")){
+    } else if (!strcmp(normMethod,"norm1")){
 
 	    TFile 		*file;
 	    TChain		*readingChain;

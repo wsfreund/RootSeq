@@ -114,11 +114,11 @@ RootNorm1::CODE RootNorm1::normalise(){
 
         }//Close Events Loop
 
-    
+        fillingTree->Fill(); 
 
     }//Close Entry Loop
 
-    fillingTree->Fill();
+
 
     return RootNorm1::OK;
 
