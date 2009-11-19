@@ -1,5 +1,5 @@
 #include"rootNorm1.h"
-
+#include<cmath>
 RootNorm1::RootNorm1(TChain *outsideReadingChain, TTree *outsidefillingTree) 
     : debugFile(NULL) {
 
@@ -99,6 +99,8 @@ RootNorm1::CODE RootNorm1::normalise(){
     //Loop over all entries
     std::cout<<"Applying Norm1 normalization"<<std::endl;
 	int entries	= static_cast<int>(readingChain->GetEntries());
+    int errorsCounter = 0;
+    const float ERROR = 1e-5;
 
     for(int entry = 0; entry < entries; ++entry){
         
@@ -113,15 +115,18 @@ RootNorm1::CODE RootNorm1::normalise(){
             norm1=1/norm1;
             for(unsigned numRing=numEvent*ringer_rings_f->size()/ringer_lvl2_eta->size(); numRing < ringer_rings_f->size()*(numEvent+1)/ringer_lvl2_eta->size(); ++numRing)
                 ringer_rings_f->at(numRing)*=norm1;
-
+            float totalEnergy = 0;
+            for(unsigned numRing=numEvent*ringer_rings_f->size()/ringer_lvl2_eta->size(); numRing < ringer_rings_f->size()*(numEvent+1)/ringer_lvl2_eta->size(); ++numRing)
+                totalEnergy+=ringer_rings_f->at(numRing);
+            if (fabs(totalEnergy-1)>ERROR) ++errorsCounter;
         }//Close Events Loop
 
         fillingTree->Fill(); 
 
     }//Close Entry Loop
 
-
-
+    
+    cout<<errorsCounter<<endl;
     return RootNorm1::OK;
 
 }
